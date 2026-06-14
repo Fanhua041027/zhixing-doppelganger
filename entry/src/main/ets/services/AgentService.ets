@@ -8,7 +8,7 @@ export class AgentService {
     const intent = AgentService.inferIntent(normalizedGoal);
     const hits = AgentService.retrieveKnowledge(normalizedGoal);
 
-    const plan = {
+    const plan: AgentPlan = {
       goal: normalizedGoal,
       intent,
       confidence: normalizedGoal.length > 12 ? 92 : 78,
@@ -70,12 +70,13 @@ export class AgentService {
   private static retrieveKnowledge(goal: string): KnowledgeHit[] {
     const lowerGoal = goal.toLowerCase();
     const items = KnowledgeRepository.getKnowledgeItems();
-    const hits = items.map((item: KnowledgeItem) => {
-      return {
+    const hits: KnowledgeHit[] = items.map((item: KnowledgeItem): KnowledgeHit => {
+      const hit: KnowledgeHit = {
         title: item.title,
         excerpt: item.content,
         score: AgentService.scoreKnowledge(lowerGoal, item)
       };
+      return hit;
     });
     return hits.sort((left: KnowledgeHit, right: KnowledgeHit) => right.score - left.score).slice(0, 3);
   }

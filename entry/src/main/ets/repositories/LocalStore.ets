@@ -1,55 +1,55 @@
 import { AgentPlan, AgentTask, ConflictNote, KnowledgeItem, MemoryItem, ProfileSignal } from '../models/AgentModels';
 
-export class LocalStore {
-  private static plan: AgentPlan | null = null;
-  private static tasks: AgentTask[] = [];
-  private static signals: ProfileSignal[] = [];
-  private static memories: MemoryItem[] = [];
-  private static knowledge: KnowledgeItem[] = [];
-  private static conflicts: ConflictNote[] = [];
+let currentPlan: AgentPlan | null = null;
+let currentTasks: AgentTask[] = [];
+let currentSignals: ProfileSignal[] = [];
+let currentMemories: MemoryItem[] = [];
+let currentKnowledge: KnowledgeItem[] = [];
+let currentConflicts: ConflictNote[] = [];
 
+export class LocalStore {
   static savePlan(plan: AgentPlan): void {
-    this.plan = plan;
-    this.tasks = plan.tasks;
+    currentPlan = plan;
+    currentTasks = plan.tasks;
   }
 
   static getPlan(): AgentPlan | null {
-    return this.plan;
+    return currentPlan;
   }
 
   static getTasks(): AgentTask[] {
-    return this.tasks;
+    return currentTasks;
   }
 
   static saveSignals(signals: ProfileSignal[]): void {
-    this.signals = signals;
+    currentSignals = signals;
   }
 
   static getSignals(): ProfileSignal[] {
-    return this.signals;
+    return currentSignals;
   }
 
   static saveMemories(memories: MemoryItem[]): void {
-    this.memories = memories;
+    currentMemories = memories;
   }
 
   static getMemories(): MemoryItem[] {
-    return this.memories;
+    return currentMemories;
   }
 
   static saveKnowledge(items: KnowledgeItem[]): void {
-    this.knowledge = items;
+    currentKnowledge = items;
   }
 
   static getKnowledge(): KnowledgeItem[] {
-    return this.knowledge;
+    return currentKnowledge;
   }
 
   static saveConflicts(items: ConflictNote[]): void {
-    this.conflicts = items;
+    currentConflicts = items;
   }
 
   static getConflicts(): ConflictNote[] {
-    return this.conflicts;
+    return currentConflicts;
   }
 }

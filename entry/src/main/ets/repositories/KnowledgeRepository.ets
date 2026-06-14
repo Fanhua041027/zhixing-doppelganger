@@ -3,7 +3,7 @@ import { LocalStore } from './LocalStore';
 
 export class KnowledgeRepository {
   static getKnowledgeItems(): KnowledgeItem[] {
-    const items = [
+    const items: KnowledgeItem[] = [
       {
         id: 'knowledge-mvp',
         title: 'MVP execution rule',
@@ -28,7 +28,7 @@ export class KnowledgeRepository {
   }
 
   static getConflictNotes(): ConflictNote[] {
-    const items = [
+    const items: ConflictNote[] = [
       {
         id: 'conflict-speed-quality',
         topic: 'Speed versus polish',

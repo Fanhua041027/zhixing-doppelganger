@@ -3,7 +3,7 @@ import { LocalStore } from './LocalStore';
 
 export class ProfileRepository {
   static getProfileSignals(): ProfileSignal[] {
-    const signals = [
+    const signals: ProfileSignal[] = [
       { label: 'Execution style', value: 'Close the loop first, polish after proof.' },
       { label: 'Learning mode', value: 'Task cards, time boxes, and short reviews.' },
       { label: 'Risk control', value: 'Avoid relying on unstable APIs for the main demo.' },
@@ -14,7 +14,7 @@ export class ProfileRepository {
   }
 
   static getMemories(): MemoryItem[] {
-    const memories = [
+    const memories: MemoryItem[] = [
       {
         id: 'memory-001',
         title: 'Competition strategy',
