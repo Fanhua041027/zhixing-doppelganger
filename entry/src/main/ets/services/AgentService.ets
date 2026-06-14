@@ -5,16 +5,16 @@ import { KnowledgeRepository } from '../repositories/KnowledgeRepository';
 export class AgentService {
   static createPlan(goal: string): AgentPlan {
     const normalizedGoal = goal.trim().length > 0 ? goal.trim() : 'Build the HarmonyOS Agent MVP';
-    const intent = this.inferIntent(normalizedGoal);
-    const hits = this.retrieveKnowledge(normalizedGoal);
+    const intent = AgentService.inferIntent(normalizedGoal);
+    const hits = AgentService.retrieveKnowledge(normalizedGoal);
 
     const plan = {
       goal: normalizedGoal,
       intent,
       confidence: normalizedGoal.length > 12 ? 92 : 78,
-      suggestion: this.createSuggestion(intent, hits),
-      tasks: this.createTasks(normalizedGoal, intent),
-      systemAction: this.selectSystemAction(intent)
+      suggestion: AgentService.createSuggestion(intent, hits),
+      tasks: AgentService.createTasks(normalizedGoal, intent),
+      systemAction: AgentService.selectSystemAction(intent)
     };
     LocalStore.savePlan(plan);
     LocalStore.saveKnowledge(KnowledgeRepository.getKnowledgeItems());
@@ -74,7 +74,7 @@ export class AgentService {
       return {
         title: item.title,
         excerpt: item.content,
-        score: this.scoreKnowledge(lowerGoal, item)
+        score: AgentService.scoreKnowledge(lowerGoal, item)
       };
     });
     return hits.sort((left: KnowledgeHit, right: KnowledgeHit) => right.score - left.score).slice(0, 3);

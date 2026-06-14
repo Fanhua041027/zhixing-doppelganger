@@ -21,7 +21,7 @@ export class EvaluationService {
       },
       {
         label: 'Device roles',
-        value: this.countDevices(plan).toString(),
+        value: EvaluationService.countDevices(plan).toString(),
         detail: 'Phone, tablet, and wearable are separated by workflow role.'
       }
     ];
