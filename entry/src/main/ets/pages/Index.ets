@@ -62,6 +62,7 @@ struct Index {
 
       Row({ space: 8 }) {
         this.SignalPill('Intent')
+        this.SignalPill('Chat')
         this.SignalPill('Tasks')
         this.SignalPill('Profile')
         this.SignalPill('Handoff')
@@ -286,6 +287,9 @@ struct Index {
   @Builder
   NavigationPanel() {
     Row({ space: 10 }) {
+      Button('Chat')
+        .navButtonStyle()
+        .onClick(() => router.pushUrl({ url: 'pages/ChatPage' }))
       Button('Tasks')
         .navButtonStyle()
         .onClick(() => router.pushUrl({ url: 'pages/TasksPage' }))

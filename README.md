@@ -11,6 +11,7 @@ The project targets the Agent innovation direction of the HarmonyOS college inno
 ## Implemented Features
 
 - Goal input and intent recognition.
+- Agent chat with retrieved evidence and next action guidance.
 - Execution plan generation with task cards.
 - Cross-device role modeling for phone, tablet, and wearable.
 - Personal profile signals, memories, knowledge items, and conflict notes.
@@ -32,8 +33,9 @@ The project targets the Agent innovation direction of the HarmonyOS college inno
 2. Enter `Prepare the HarmonyOS Agent innovation contest demo`.
 3. Generate the execution plan.
 4. Show detected intent, confidence, task cards, and evaluation metrics.
-5. Open Profile to show personal data and conflict notes.
-6. Open Settings to show the system capability extension point.
+5. Open Chat to ask about demo risk and show retrieved evidence.
+6. Open Profile to show personal data and conflict notes.
+7. Open Settings to show the system capability extension point.
 
 ## Development Environment
 

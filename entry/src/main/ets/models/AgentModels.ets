@@ -49,3 +49,15 @@ export interface ConflictNote {
   rightClaim: string;
   handling: string;
 }
+
+export interface ChatMessage {
+  id: string;
+  role: string;
+  content: string;
+}
+
+export interface ChatTurnResult {
+  messages: ChatMessage[];
+  evidence: KnowledgeHit[];
+  nextAction: string;
+}

@@ -1,6 +1,7 @@
 {
   "src": [
     "pages/Index",
+    "pages/ChatPage",
     "pages/TasksPage",
     "pages/ProfilePage",
     "pages/SettingsPage"
