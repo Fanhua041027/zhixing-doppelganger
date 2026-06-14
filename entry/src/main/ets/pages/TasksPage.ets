@@ -3,11 +3,13 @@ import { AgentPlan, AgentTask } from '../models/AgentModels';
 import { AgentService } from '../services/AgentService';
 import { EvaluationMetric, EvaluationService } from '../services/EvaluationService';
 
+const defaultTaskPlan: AgentPlan = AgentService.createPlan('Prepare the first stable demo for the contest');
+
 @Entry
 @Component
 struct TasksPage {
-  @State plan: AgentPlan = AgentService.createPlan('Prepare the first stable demo for the contest');
-  @State metrics: EvaluationMetric[] = EvaluationService.evaluatePlan(this.plan);
+  @State plan: AgentPlan = defaultTaskPlan;
+  @State metrics: EvaluationMetric[] = EvaluationService.evaluatePlan(defaultTaskPlan);
 
   build() {
     Scroll() {

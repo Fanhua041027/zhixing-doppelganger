@@ -8,7 +8,7 @@ export interface EvaluationMetric {
 
 export class EvaluationService {
   static evaluatePlan(plan: AgentPlan): EvaluationMetric[] {
-    return [
+    const metrics: EvaluationMetric[] = [
       {
         label: 'Intent confidence',
         value: `${plan.confidence}%`,
@@ -25,6 +25,7 @@ export class EvaluationService {
         detail: 'Phone, tablet, and wearable are separated by workflow role.'
       }
     ];
+    return metrics;
   }
 
   private static countDevices(plan: AgentPlan): number {

@@ -6,18 +6,20 @@ export interface SystemActionResult {
 
 export class HarmonyIntentService {
   static createReviewReminder(goal: string): SystemActionResult {
-    return {
+    const result: SystemActionResult = {
       title: 'Review reminder prepared',
       detail: `A reminder handoff is prepared for "${goal}". Real system intent wiring is the next milestone.`,
       available: false
     };
+    return result;
   }
 
   static createCalendarDraft(goal: string): SystemActionResult {
-    return {
+    const result: SystemActionResult = {
       title: 'Calendar draft prepared',
       detail: `A schedule draft is ready for "${goal}" with time, device, and task metadata.`,
       available: false
     };
+    return result;
   }
 }
