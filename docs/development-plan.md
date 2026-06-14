@@ -13,6 +13,7 @@
 - Add task decomposition models and execution states.
 - Persist task history locally.
 - Add fallback responses for unsupported or ambiguous goals.
+- Keep evaluation metrics visible in the product UI from the first demo.
 
 ## Phase 3: Personal Doppelganger Data
 

@@ -1,50 +1,16 @@
-interface AgentTask {
-  title: string;
-  detail: string;
-  device: string;
-  time: string;
-  status: string;
-}
-
-interface ProfileSignal {
-  label: string;
-  value: string;
-}
+import { router } from '@kit.ArkUI';
+import { AgentPlan, AgentTask, ProfileSignal } from '../models/AgentModels';
+import { ProfileRepository } from '../repositories/ProfileRepository';
+import { AgentService } from '../services/AgentService';
+import { EvaluationMetric, EvaluationService } from '../services/EvaluationService';
 
 @Entry
 @Component
 struct Index {
-  @State goal: string = '三天内完成鸿蒙 Agent 创新赛原型';
-  @State intent: string = '竞赛学习规划';
-  @State confidence: number = 92;
-  @State tasks: AgentTask[] = [
-    {
-      title: '拆解赛题材料',
-      detail: '提取评分维度、作品限制和演示要求，形成一页摘要。',
-      device: 'Phone',
-      time: '今天 20:30',
-      status: '进行中'
-    },
-    {
-      title: '整理知识卡片',
-      detail: '把意图识别、任务拆解、跨端流转整理成答辩材料。',
-      device: 'Tablet',
-      time: '明天 09:00',
-      status: '待执行'
-    },
-    {
-      title: '安排复盘提醒',
-      detail: '在关键节点提醒检查 Demo 稳定性和讲稿一致性。',
-      device: 'Wearable',
-      time: '明天 21:30',
-      status: '待同步'
-    }
-  ];
-  private profileSignals: ProfileSignal[] = [
-    { label: '执行风格', value: '先跑通闭环，再打磨细节' },
-    { label: '学习偏好', value: '任务卡片 + 时间盒' },
-    { label: '风险倾向', value: '避免押注不稳定 API' }
-  ];
+  @State goal: string = 'Finish the HarmonyOS Agent contest MVP in three days';
+  @State plan: AgentPlan = AgentService.createPlan('Finish the HarmonyOS Agent contest MVP in three days');
+  @State metrics: EvaluationMetric[] = EvaluationService.evaluatePlan(AgentService.createPlan('Finish the HarmonyOS Agent contest MVP in three days'));
+  private profileSignals: ProfileSignal[] = ProfileRepository.getProfileSignals();
 
   build() {
     Scroll() {
@@ -53,36 +19,70 @@ struct Index {
         this.GoalPanel()
         this.AgentPanel()
         this.TaskFlow()
+        this.MetricsPanel()
         this.ProfilePanel()
+        this.NavigationPanel()
       }
       .width('100%')
       .padding({ left: 20, right: 20, top: 24, bottom: 32 })
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#F5F7F2')
+    .backgroundColor('#F3F1E8')
   }
 
   @Builder
   Header() {
-    Column({ space: 8 }) {
-      Text('知行分身')
-        .fontSize(32)
-        .fontWeight(FontWeight.Bold)
-        .fontColor('#17201A')
-      Text('基于意图识别的鸿蒙跨设备学习执行 Agent')
-        .fontSize(15)
-        .fontColor('#5F6B61')
+    Column({ space: 14 }) {
+      Row() {
+        Column({ space: 6 }) {
+          Text('Zhixing Agent')
+            .fontSize(34)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#162018')
+          Text('Intent-driven learning execution for HarmonyOS')
+            .fontSize(15)
+            .fontColor('#59665C')
+        }
+        .layoutWeight(1)
+        .alignItems(HorizontalAlign.Start)
+
+        Text('Alpha')
+          .fontSize(12)
+          .fontColor('#F6F1DA')
+          .padding({ left: 10, right: 10, top: 5, bottom: 5 })
+          .backgroundColor('#1F4E3A')
+          .borderRadius(8)
+      }
+      .width('100%')
+
+      Row({ space: 8 }) {
+        this.SignalPill('Intent')
+        this.SignalPill('Tasks')
+        this.SignalPill('Profile')
+        this.SignalPill('Handoff')
+      }
+      .width('100%')
     }
     .alignItems(HorizontalAlign.Start)
     .width('100%')
   }
 
   @Builder
+  SignalPill(label: string) {
+    Text(label)
+      .fontSize(12)
+      .fontColor('#344138')
+      .padding({ left: 10, right: 10, top: 6, bottom: 6 })
+      .backgroundColor('#E3EADF')
+      .borderRadius(8)
+  }
+
+  @Builder
   GoalPanel() {
     Column({ space: 14 }) {
       Row() {
-        Text('当前学习目标')
+        Text('Learning goal')
           .fontSize(18)
           .fontWeight(FontWeight.Bold)
           .fontColor('#17201A')
@@ -96,7 +96,7 @@ struct Index {
       }
       .width('100%')
 
-      TextInput({ text: this.goal, placeholder: '输入你的学习或竞赛目标' })
+      TextInput({ text: this.goal, placeholder: 'Enter a learning or contest goal' })
         .height(48)
         .fontSize(15)
         .fontColor('#17201A')
@@ -106,11 +106,11 @@ struct Index {
         .padding({ left: 12, right: 12 })
         .onChange((value: string) => {
           this.goal = value;
-          this.intent = this.inferIntent(value);
-          this.confidence = value.length > 8 ? 92 : 74;
+          this.plan = AgentService.createPlan(value);
+          this.metrics = EvaluationService.evaluatePlan(this.plan);
         })
 
-      Button('生成执行计划')
+      Button('Generate execution plan')
         .height(44)
         .width('100%')
         .fontSize(15)
@@ -119,51 +119,61 @@ struct Index {
         .backgroundColor('#1F4E3A')
         .borderRadius(8)
         .onClick(() => {
-          this.refreshPlan();
+          this.plan = AgentService.createPlan(this.goal);
+          this.metrics = EvaluationService.evaluatePlan(this.plan);
         })
     }
-    .panelStyle()
+    .featurePanelStyle()
   }
 
   @Builder
   AgentPanel() {
-    Row({ space: 12 }) {
-      Column({ space: 6 }) {
-        Text('识别意图')
-          .fontSize(13)
-          .fontColor('#667067')
-        Text(this.intent)
-          .fontSize(20)
-          .fontWeight(FontWeight.Bold)
-          .fontColor('#17201A')
-      }
-      .layoutWeight(1)
-      .alignItems(HorizontalAlign.Start)
+    Column({ space: 12 }) {
+      Row({ space: 12 }) {
+        Column({ space: 6 }) {
+          Text('Detected intent')
+            .fontSize(13)
+            .fontColor('#667067')
+          Text(this.plan.intent)
+            .fontSize(20)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#17201A')
+        }
+        .layoutWeight(1)
+        .alignItems(HorizontalAlign.Start)
 
-      Column({ space: 4 }) {
-        Text(`${this.confidence}%`)
-          .fontSize(24)
-          .fontWeight(FontWeight.Bold)
-          .fontColor('#1F4E3A')
-        Text('置信度')
-          .fontSize(12)
-          .fontColor('#667067')
+        Column({ space: 4 }) {
+          Text(`${this.plan.confidence}%`)
+            .fontSize(24)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#1F4E3A')
+          Text('Confidence')
+            .fontSize(12)
+            .fontColor('#667067')
+        }
+        .alignItems(HorizontalAlign.End)
       }
-      .alignItems(HorizontalAlign.End)
+      .width('100%')
+
+      Text(this.plan.suggestion)
+        .fontSize(13)
+        .fontColor('#4E5B50')
+        .lineHeight(20)
+        .width('100%')
     }
-    .panelStyle()
+    .featurePanelStyle()
   }
 
   @Builder
   TaskFlow() {
     Column({ space: 12 }) {
-      Text('跨设备任务流')
+      Text('Cross-device task flow')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
         .width('100%')
 
-      ForEach(this.tasks, (task: AgentTask) => {
+      ForEach(this.plan.tasks, (task: AgentTask) => {
         Column({ space: 8 }) {
           Row() {
             Text(task.title)
@@ -187,7 +197,7 @@ struct Index {
             .width('100%')
 
           Row() {
-            Text(task.time)
+            Text(`${task.priority} - ${task.time}`)
               .fontSize(12)
               .fontColor('#667067')
             Blank()
@@ -200,15 +210,15 @@ struct Index {
         .padding(14)
         .backgroundColor('#FFFFFF')
         .borderRadius(8)
-      }, (task: AgentTask) => task.title)
+      }, (task: AgentTask) => task.id)
     }
-    .panelStyle()
+    .featurePanelStyle()
   }
 
   @Builder
   ProfilePanel() {
     Column({ space: 12 }) {
-      Text('个人画像信号')
+      Text('Personal profile signals')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -219,7 +229,7 @@ struct Index {
           Text(signal.label)
             .fontSize(13)
             .fontColor('#667067')
-            .width(88)
+            .width(110)
           Text(signal.value)
             .fontSize(14)
             .fontColor('#17201A')
@@ -228,53 +238,69 @@ struct Index {
         .width('100%')
       }, (signal: ProfileSignal) => signal.label)
     }
-    .panelStyle()
+    .featurePanelStyle()
   }
 
-  private inferIntent(value: string): string {
-    if (value.includes('比赛') || value.includes('竞赛')) {
-      return '竞赛学习规划';
+  @Builder
+  MetricsPanel() {
+    Column({ space: 12 }) {
+      Text('Evaluation snapshot')
+        .fontSize(18)
+        .fontWeight(FontWeight.Bold)
+        .fontColor('#17201A')
+        .width('100%')
+
+      ForEach(this.metrics, (metric: EvaluationMetric) => {
+        Row({ space: 12 }) {
+          Column({ space: 3 }) {
+            Text(metric.value)
+              .fontSize(20)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('#1F4E3A')
+            Text(metric.label)
+              .fontSize(12)
+              .fontColor('#667067')
+          }
+          .width(110)
+          .alignItems(HorizontalAlign.Start)
+
+          Text(metric.detail)
+            .fontSize(13)
+            .fontColor('#5F6B61')
+            .lineHeight(20)
+            .layoutWeight(1)
+        }
+        .width('100%')
+        .padding(12)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+      }, (metric: EvaluationMetric) => metric.label)
     }
-    if (value.includes('复习') || value.includes('考试')) {
-      return '考试复习调度';
-    }
-    if (value.includes('论文') || value.includes('文献')) {
-      return '资料研读整理';
-    }
-    return '学习任务执行';
+    .featurePanelStyle()
   }
 
-  private refreshPlan(): void {
-    this.tasks = [
-      {
-        title: '确认目标边界',
-        detail: `围绕“${this.goal}”拆出可交付成果和验收标准。`,
-        device: 'Phone',
-        time: '立即',
-        status: '进行中'
-      },
-      {
-        title: '生成任务卡片',
-        detail: '按重要性、截止时间和设备适配度安排执行顺序。',
-        device: 'Tablet',
-        time: '30 分钟后',
-        status: '待执行'
-      },
-      {
-        title: '设置复盘提醒',
-        detail: '在任务完成后触发复盘，沉淀到个人画像和记忆库。',
-        device: 'Wearable',
-        time: '今晚',
-        status: '待同步'
-      }
-    ];
+  @Builder
+  NavigationPanel() {
+    Row({ space: 10 }) {
+      Button('Tasks')
+        .navButtonStyle()
+        .onClick(() => router.pushUrl({ url: 'pages/TasksPage' }))
+      Button('Profile')
+        .navButtonStyle()
+        .onClick(() => router.pushUrl({ url: 'pages/ProfilePage' }))
+      Button('Settings')
+        .navButtonStyle()
+        .onClick(() => router.pushUrl({ url: 'pages/SettingsPage' }))
+    }
+    .width('100%')
+    .padding({ top: 4 })
   }
 
   private statusColor(status: string): string {
-    if (status === '进行中') {
+    if (status === 'Active') {
       return '#1F4E3A';
     }
-    if (status === '待同步') {
+    if (status === 'Pending sync') {
       return '#8A5A12';
     }
     return '#667067';
@@ -282,9 +308,20 @@ struct Index {
 }
 
 @Extend(Column)
-function panelStyle() {
+function featurePanelStyle() {
   .width('100%')
   .padding(16)
   .backgroundColor('#EEF2EA')
+  .borderRadius(8)
+  .border({ width: 1, color: '#D7DFD2' })
+}
+
+@Extend(Button)
+function navButtonStyle() {
+  .height(42)
+  .layoutWeight(1)
+  .fontSize(14)
+  .fontColor('#1F4E3A')
+  .backgroundColor('#E3EADF')
   .borderRadius(8)
 }

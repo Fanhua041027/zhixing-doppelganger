@@ -1,34 +1,50 @@
-# 知行分身
+# Zhixing Agent
 
-基于意图识别的鸿蒙跨设备学习执行 Agent。
+Intent-driven HarmonyOS cross-device learning execution agent.
 
-## 项目定位
+## Overview
 
-知行分身面向高校学习、竞赛备赛和项目推进场景。它不是普通问答助手，而是一个能理解学习目标、拆解执行任务，并在 HarmonyOS 手机和平板之间呈现任务流的个人学习执行分身。
+Zhixing Agent turns a broad learning or contest goal into an executable plan. It detects the user's intent, retrieves local personal context, generates task cards, assigns device roles, and shows evaluation indicators that make the Agent's decisions explainable.
 
-## 当前 MVP
+The project targets the Agent innovation direction of the HarmonyOS college innovation competition. The MVP is intentionally local-first and deterministic so the first demo is stable, while the architecture is ready for RAG, rerank, model APIs, and HarmonyOS system capability integration.
 
-- 输入学习或竞赛目标
-- 识别目标意图
-- 生成跨设备任务卡片
-- 展示个人画像信号
-- 为后续接入本地记忆、RAG 和鸿蒙系统能力预留结构
+## Implemented Features
 
-## 技术路线
+- Goal input and intent recognition.
+- Execution plan generation with task cards.
+- Cross-device role modeling for phone, tablet, and wearable.
+- Personal profile signals, memories, knowledge items, and conflict notes.
+- Evaluation metrics for confidence, task coverage, and device roles.
+- Settings page with RAG, cross-device, and strict-context controls.
+- System capability boundary for future calendar/reminder integration.
 
-- HarmonyOS 应用，设备类型为 Phone 和 Tablet
-- ArkTS + ArkUI
-- 本地规则版意图识别作为第一阶段基线
-- 后续接入个人画像、学习记忆、RAG 检索和跨设备同步
+## Architecture
 
-## 开发阶段
+- `entry/src/main/ets/pages`: ArkUI pages.
+- `entry/src/main/ets/models`: shared data models.
+- `entry/src/main/ets/services`: Agent, evaluation, and system capability services.
+- `entry/src/main/ets/repositories`: profile, knowledge, and local store repositories.
+- `docs`: development plan, demo script, scoring map, and submission notes.
 
-1. MVP 工作台：完成首页、任务流和画像信号展示
-2. Agent 主链路：补充意图识别、任务拆解、执行状态管理
-3. 数据资产：建立偏好、历史任务、知识卡片和冲突记录
-4. 鸿蒙能力：接入系统意图、跨设备同步和任务流转
-5. 比赛包装：补充演示脚本、架构图和评测指标
+## Demo Flow
 
-## GitHub
+1. Open the dashboard.
+2. Enter `Prepare the HarmonyOS Agent innovation contest demo`.
+3. Generate the execution plan.
+4. Show detected intent, confidence, task cards, and evaluation metrics.
+5. Open Profile to show personal data and conflict notes.
+6. Open Settings to show the system capability extension point.
 
-仓库地址：https://github.com/Fanhua041027/zhixing-doppelganger
+## Development Environment
+
+- DevEco Studio 26.0.0 Beta1.
+- HarmonyOS application.
+- Device types: Phone and Tablet.
+- Language: ArkTS.
+
+## Next Milestones
+
+- Persist `LocalStore` with HarmonyOS local storage.
+- Connect real calendar/reminder system invocation.
+- Prototype phone-tablet task handoff.
+- Add model-backed RAG behind `AgentService`.
