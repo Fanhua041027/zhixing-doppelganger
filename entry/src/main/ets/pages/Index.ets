@@ -4,12 +4,16 @@ import { ProfileRepository } from '../repositories/ProfileRepository';
 import { AgentService } from '../services/AgentService';
 import { EvaluationMetric, EvaluationService } from '../services/EvaluationService';
 
+const defaultIndexGoal: string = 'Finish the HarmonyOS Agent contest MVP in three days';
+const defaultIndexPlan: AgentPlan = AgentService.createPlan(defaultIndexGoal);
+const defaultIndexMetrics: EvaluationMetric[] = EvaluationService.evaluatePlan(defaultIndexPlan);
+
 @Entry
 @Component
 struct Index {
-  @State goal: string = 'Finish the HarmonyOS Agent contest MVP in three days';
-  @State plan: AgentPlan = AgentService.createPlan('Finish the HarmonyOS Agent contest MVP in three days');
-  @State metrics: EvaluationMetric[] = EvaluationService.evaluatePlan(AgentService.createPlan('Finish the HarmonyOS Agent contest MVP in three days'));
+  @State goal: string = defaultIndexGoal;
+  @State plan: AgentPlan = defaultIndexPlan;
+  @State metrics: EvaluationMetric[] = defaultIndexMetrics;
   private profileSignals: ProfileSignal[] = ProfileRepository.getProfileSignals();
 
   build() {

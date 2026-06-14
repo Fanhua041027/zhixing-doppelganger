@@ -36,7 +36,7 @@ export class AgentService {
   }
 
   private static createTasks(goal: string, intent: string): AgentTask[] {
-    return [
+    const tasks: AgentTask[] = [
       {
         id: 'task-define',
         title: 'Define the outcome',
@@ -65,6 +65,7 @@ export class AgentService {
         priority: 'P1'
       }
     ];
+    return tasks;
   }
 
   private static retrieveKnowledge(goal: string): KnowledgeHit[] {

@@ -1,13 +1,15 @@
 import { router } from '@kit.ArkUI';
 import { HarmonyIntentService, SystemActionResult } from '../services/HarmonyIntentService';
 
+const defaultSystemAction: SystemActionResult = HarmonyIntentService.createCalendarDraft('HarmonyOS Agent MVP');
+
 @Entry
 @Component
 struct SettingsPage {
   @State ragEnabled: boolean = true;
   @State crossDeviceEnabled: boolean = true;
   @State strictMode: boolean = true;
-  @State actionResult: SystemActionResult = HarmonyIntentService.createCalendarDraft('HarmonyOS Agent MVP');
+  @State actionResult: SystemActionResult = defaultSystemAction;
 
   build() {
     Scroll() {
