@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "知行分身主模块"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "基于意图识别的鸿蒙跨设备学习执行 Agent"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "知行分身"
+    }
+  ]
+}
