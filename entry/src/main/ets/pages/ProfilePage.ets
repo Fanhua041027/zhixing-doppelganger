@@ -1,7 +1,8 @@
 import { router } from '@kit.ArkUI';
-import { ConflictNote, KnowledgeItem, MemoryItem, ProfileSignal } from '../models/AgentModels';
+import { ConflictNote, KnowledgeItem, MemoryItem, ProfileSignal, ReflectionItem } from '../models/AgentModels';
 import { KnowledgeRepository } from '../repositories/KnowledgeRepository';
 import { ProfileRepository } from '../repositories/ProfileRepository';
+import { ExecutionService } from '../services/ExecutionService';
 
 @Entry
 @Component
@@ -10,12 +11,14 @@ struct ProfilePage {
   private memories: MemoryItem[] = ProfileRepository.getMemories();
   private knowledgeItems: KnowledgeItem[] = KnowledgeRepository.getKnowledgeItems();
   private conflicts: ConflictNote[] = KnowledgeRepository.getConflictNotes();
+  private reflections: ReflectionItem[] = ExecutionService.getReflections();
 
   build() {
     Scroll() {
       Column({ space: 16 }) {
         this.TopBar()
         this.SignalPanel()
+        this.ReflectionPanel()
         this.MemoryPanel()
         this.KnowledgePanel()
         this.ConflictPanel()
@@ -71,6 +74,57 @@ struct ProfilePage {
         .backgroundColor('#FFFFFF')
         .borderRadius(8)
       }, (signal: ProfileSignal) => signal.label)
+    }
+    .pagePanel()
+  }
+
+  @Builder
+  ReflectionPanel() {
+    Column({ space: 12 }) {
+      Row() {
+        Text('执行复盘')
+          .fontSize(18)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#17201A')
+        Blank()
+        Text('动态沉淀')
+          .fontSize(12)
+          .fontColor('#1F4E3A')
+          .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+          .backgroundColor('#DDEDDD')
+          .borderRadius(6)
+      }
+      .width('100%')
+
+      ForEach(this.reflections, (item: ReflectionItem) => {
+        Column({ space: 6 }) {
+          Row() {
+            Text(item.title)
+              .fontSize(16)
+              .fontWeight(FontWeight.Medium)
+              .fontColor('#17201A')
+            Blank()
+            Text(item.createdAt)
+              .fontSize(12)
+              .fontColor('#8A5A12')
+          }
+          .width('100%')
+          Text(item.insight)
+            .fontSize(13)
+            .fontColor('#5F6B61')
+            .lineHeight(20)
+            .width('100%')
+          Text(item.action)
+            .fontSize(13)
+            .fontColor('#1F4E3A')
+            .lineHeight(20)
+            .width('100%')
+        }
+        .width('100%')
+        .padding(12)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+      }, (item: ReflectionItem) => item.id)
     }
     .pagePanel()
   }

@@ -65,6 +65,15 @@ export class ConversationService {
     if (input.toLowerCase().includes('risk') || input.includes('风险')) {
       return `风险优先建议：主演示保持确定性，不把成败押在不稳定接口上。依据：${strongestEvidence}`;
     }
+    if (input.includes('进度') || input.includes('执行')) {
+      return `执行建议：先推进最高优先级任务，再把完成状态同步到画像复盘。依据：${strongestEvidence}`;
+    }
+    if (input.includes('设备') || input.includes('流转')) {
+      return `设备建议：手机负责即时确认，平板负责展开计划，穿戴设备负责提醒反馈。依据：${strongestEvidence}`;
+    }
+    if (input.includes('复盘') || input.includes('沉淀')) {
+      return `复盘建议：每次推进后记录一条洞察，说明分身如何从执行中学习。依据：${strongestEvidence}`;
+    }
     if (input.toLowerCase().includes('ui') || input.includes('界面')) {
       return `界面建议：先让执行流清晰可见，再增加视觉装饰。依据：${strongestEvidence}`;
     }
@@ -73,10 +82,11 @@ export class ConversationService {
 
   private static selectNextAction(input: string): string {
     const lowerInput: string = input.toLowerCase();
-    if (lowerInput.includes('profile') || input.includes('画像')) {
+    if (lowerInput.includes('profile') || input.includes('画像') || input.includes('复盘')) {
       return '打开画像页，检查信号、记忆、知识和冲突记录。';
     }
-    if (lowerInput.includes('task') || lowerInput.includes('demo') || input.includes('任务') || input.includes('演示')) {
+    if (lowerInput.includes('task') || lowerInput.includes('demo') || input.includes('任务') || input.includes('演示') ||
+      input.includes('进度') || input.includes('执行')) {
       return '打开任务看板，确认演示路径。';
     }
     return '回到首页生成新的执行计划。';

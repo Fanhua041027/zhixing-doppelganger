@@ -8,6 +8,13 @@ export interface AgentTask {
   priority: string;
 }
 
+export interface ExecutionSnapshot {
+  progress: number;
+  stage: string;
+  summary: string;
+  nextStep: string;
+}
+
 export interface AgentPlan {
   goal: string;
   intent: string;
@@ -27,6 +34,14 @@ export interface MemoryItem {
   title: string;
   content: string;
   source: string;
+}
+
+export interface ReflectionItem {
+  id: string;
+  title: string;
+  insight: string;
+  action: string;
+  createdAt: string;
 }
 
 export interface KnowledgeHit {

@@ -23,6 +23,11 @@ export class EvaluationService {
         label: '设备角色',
         value: EvaluationService.countDevices(plan).toString(),
         detail: '手机、平板、穿戴设备承担不同任务角色。'
+      },
+      {
+        label: '推进状态',
+        value: `${EvaluationService.countActiveTasks(plan)} 项`,
+        detail: '已完成或进行中的任务会进入复盘沉淀。'
       }
     ];
     return metrics;
@@ -36,5 +41,15 @@ export class EvaluationService {
       }
     });
     return devices.length;
+  }
+
+  private static countActiveTasks(plan: AgentPlan): number {
+    let count: number = 0;
+    plan.tasks.forEach((task: AgentTask) => {
+      if (task.status === '已完成' || task.status === '进行中') {
+        count += 1;
+      }
+    });
+    return count;
   }
 }

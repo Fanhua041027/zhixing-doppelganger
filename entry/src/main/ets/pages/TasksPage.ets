@@ -1,14 +1,16 @@
 import { router } from '@kit.ArkUI';
-import { AgentPlan, AgentTask, DeviceFlowStep, TaskHistoryItem } from '../models/AgentModels';
+import { AgentPlan, AgentTask, DeviceFlowStep, ExecutionSnapshot, TaskHistoryItem } from '../models/AgentModels';
 import { AgentService } from '../services/AgentService';
 import { DeviceFlowService } from '../services/DeviceFlowService';
 import { EvaluationMetric, EvaluationService } from '../services/EvaluationService';
+import { ExecutionService } from '../services/ExecutionService';
 import { TaskHistoryService } from '../services/TaskHistoryService';
 
 const defaultTaskPlan: AgentPlan = AgentService.createPlan('准备第一版稳定竞赛演示');
 const defaultTaskMetrics: EvaluationMetric[] = EvaluationService.evaluatePlan(defaultTaskPlan);
 const defaultTaskFlow: DeviceFlowStep[] = DeviceFlowService.createFlowFromTasks(defaultTaskPlan.tasks);
 const defaultTaskHistory: TaskHistoryItem[] = TaskHistoryService.getHistory();
+const defaultSnapshot: ExecutionSnapshot = ExecutionService.getInitialSnapshot(defaultTaskPlan);
 
 @Entry
 @Component
@@ -17,6 +19,7 @@ struct TasksPage {
   @State metrics: EvaluationMetric[] = defaultTaskMetrics;
   @State history: TaskHistoryItem[] = defaultTaskHistory;
   @State deviceFlow: DeviceFlowStep[] = defaultTaskFlow;
+  @State snapshot: ExecutionSnapshot = defaultSnapshot;
 
   build() {
     Scroll() {
@@ -63,16 +66,54 @@ struct TasksPage {
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
         .width('100%')
-      Text('当前最小闭环重点是让每个智能体决策都通过任务卡片可见。')
+      Text(this.snapshot.summary)
         .fontSize(13)
         .fontColor('#5F6B61')
         .lineHeight(20)
         .width('100%')
-      Progress({ value: 42, total: 100, type: ProgressType.Linear })
+      Row() {
+        Text(this.snapshot.stage)
+          .fontSize(13)
+          .fontColor('#1F4E3A')
+        Blank()
+        Text(`${this.snapshot.progress}%`)
+          .fontSize(13)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#1F4E3A')
+      }
+      .width('100%')
+      Progress({ value: this.snapshot.progress, total: 100, type: ProgressType.Linear })
         .width('100%')
         .height(8)
         .color('#1F4E3A')
         .backgroundColor('#DDEDDD')
+      Text(this.snapshot.nextStep)
+        .fontSize(13)
+        .fontColor('#8A5A12')
+        .lineHeight(20)
+        .width('100%')
+      Button('推进一次执行')
+        .height(40)
+        .width('100%')
+        .fontSize(14)
+        .fontColor('#FFFFFF')
+        .backgroundColor('#1F4E3A')
+        .borderRadius(8)
+        .onClick(() => {
+          this.plan = ExecutionService.advancePlan(this.plan);
+          this.metrics = EvaluationService.evaluatePlan(this.plan);
+          this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
+          this.snapshot = ExecutionService.createSnapshot(this.plan);
+          this.history = TaskHistoryService.getHistory();
+        })
+      Button('查看复盘沉淀')
+        .height(40)
+        .width('100%')
+        .fontSize(14)
+        .fontColor('#1F4E3A')
+        .backgroundColor('#E3EADF')
+        .borderRadius(8)
+        .onClick(() => router.pushUrl({ url: 'pages/ProfilePage' }))
     }
     .pagePanel()
   }
@@ -113,7 +154,7 @@ struct TasksPage {
               Blank()
               Text(task.status)
                 .fontSize(12)
-                .fontColor('#1F4E3A')
+                .fontColor(this.statusColor(task.status))
             }
             .width('100%')
           }
@@ -234,6 +275,19 @@ struct TasksPage {
     .padding(16)
     .backgroundColor('#EEF2EA')
     .borderRadius(8)
+  }
+
+  private statusColor(status: string): string {
+    if (status === '已完成') {
+      return '#1F4E3A';
+    }
+    if (status === '进行中') {
+      return '#2D5D46';
+    }
+    if (status === '待同步') {
+      return '#8A5A12';
+    }
+    return '#667067';
   }
 }
 
