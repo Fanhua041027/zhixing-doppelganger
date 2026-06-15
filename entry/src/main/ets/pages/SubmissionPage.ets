@@ -1,4 +1,3 @@
-import { router } from '@kit.ArkUI';
 import { RiskControlItem, SubmissionCheckItem } from '../models/AgentModels';
 import { ReviewService } from '../services/ReviewService';
 
@@ -37,7 +36,7 @@ struct SubmissionPage {
         .fontColor('#1F4E3A')
         .backgroundColor('#E3EADF')
         .borderRadius(8)
-        .onClick(() => router.back())
+        .onClick(() => this.getUIContext().getRouter().back())
       Blank()
       Text('提交总览')
         .fontSize(22)

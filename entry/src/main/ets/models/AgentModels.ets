@@ -121,3 +121,10 @@ export interface DeviceFlowStep {
   handoff: string;
   status: string;
 }
+
+export interface GoalTemplate {
+  id: string;
+  title: string;
+  goal: string;
+  scenario: string;
+}

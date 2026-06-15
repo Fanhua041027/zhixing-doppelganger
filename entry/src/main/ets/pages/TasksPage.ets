@@ -1,4 +1,3 @@
-import { router } from '@kit.ArkUI';
 import { AgentPlan, AgentTask, DeviceFlowStep, ExecutionSnapshot, TaskHistoryItem } from '../models/AgentModels';
 import { AgentService } from '../services/AgentService';
 import { DeviceFlowService } from '../services/DeviceFlowService';
@@ -48,7 +47,7 @@ struct TasksPage {
         .fontColor('#1F4E3A')
         .backgroundColor('#E3EADF')
         .borderRadius(8)
-        .onClick(() => router.back())
+        .onClick(() => this.getUIContext().getRouter().back())
       Blank()
       Text('任务看板')
         .fontSize(22)
@@ -113,7 +112,7 @@ struct TasksPage {
         .fontColor('#1F4E3A')
         .backgroundColor('#E3EADF')
         .borderRadius(8)
-        .onClick(() => router.pushUrl({ url: 'pages/ProfilePage' }))
+        .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/ProfilePage' }))
     }
     .pagePanel()
   }

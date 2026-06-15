@@ -1,4 +1,3 @@
-import { router } from '@kit.ArkUI';
 import { ReviewPoint, RiskControlItem, SubmissionCheckItem } from '../models/AgentModels';
 import { ReviewService } from '../services/ReviewService';
 
@@ -40,7 +39,7 @@ struct ReviewPage {
         .fontColor('#1F4E3A')
         .backgroundColor('#E3EADF')
         .borderRadius(8)
-        .onClick(() => router.back())
+        .onClick(() => this.getUIContext().getRouter().back())
       Blank()
       Text('评审展示')
         .fontSize(22)

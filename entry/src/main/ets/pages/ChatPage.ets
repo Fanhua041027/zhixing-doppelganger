@@ -1,4 +1,3 @@
-import { router } from '@kit.ArkUI';
 import { ChatMessage, ChatTurnResult, KnowledgeHit } from '../models/AgentModels';
 import { ConversationService } from '../services/ConversationService';
 
@@ -36,7 +35,7 @@ struct ChatPage {
         .fontColor('#1F4E3A')
         .backgroundColor('#E3EADF')
         .borderRadius(8)
-        .onClick(() => router.back())
+        .onClick(() => this.getUIContext().getRouter().back())
       Blank()
       Text('智能体对话')
         .fontSize(22)

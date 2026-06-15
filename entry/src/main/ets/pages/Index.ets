@@ -1,14 +1,15 @@
-import { router } from '@kit.ArkUI';
-import { AgentPlan, AgentTask, DeviceFlowStep, ProfileSignal } from '../models/AgentModels';
+import { AgentPlan, AgentTask, DeviceFlowStep, GoalTemplate, ProfileSignal } from '../models/AgentModels';
 import { ProfileRepository } from '../repositories/ProfileRepository';
 import { AgentService } from '../services/AgentService';
 import { DeviceFlowService } from '../services/DeviceFlowService';
 import { EvaluationMetric, EvaluationService } from '../services/EvaluationService';
+import { GoalTemplateService } from '../services/GoalTemplateService';
 
 const defaultIndexGoal: string = '三天内完成鸿蒙智能体竞赛演示';
 const defaultIndexPlan: AgentPlan = AgentService.createPlan(defaultIndexGoal);
 const defaultIndexMetrics: EvaluationMetric[] = EvaluationService.evaluatePlan(defaultIndexPlan);
 const defaultDeviceFlow: DeviceFlowStep[] = DeviceFlowService.createFlowFromTasks(defaultIndexPlan.tasks);
+const defaultGoalTemplates: GoalTemplate[] = GoalTemplateService.getTemplates();
 
 @Entry
 @Component
@@ -17,6 +18,7 @@ struct Index {
   @State plan: AgentPlan = defaultIndexPlan;
   @State metrics: EvaluationMetric[] = defaultIndexMetrics;
   @State deviceFlow: DeviceFlowStep[] = defaultDeviceFlow;
+  private goalTemplates: GoalTemplate[] = defaultGoalTemplates;
   private profileSignals: ProfileSignal[] = ProfileRepository.getProfileSignals();
 
   build() {
@@ -134,6 +136,38 @@ struct Index {
           this.metrics = EvaluationService.evaluatePlan(this.plan);
           this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
         })
+      Column({ space: 8 }) {
+        Text('目标模板')
+          .fontSize(14)
+          .fontWeight(FontWeight.Medium)
+          .fontColor('#17201A')
+          .width('100%')
+        ForEach(this.goalTemplates, (item: GoalTemplate) => {
+          Column({ space: 4 }) {
+            Row() {
+              Text(item.title)
+                .fontSize(14)
+                .fontWeight(FontWeight.Medium)
+                .fontColor('#17201A')
+              Blank()
+              Text('套用')
+                .fontSize(12)
+                .fontColor('#1F4E3A')
+            }
+            .width('100%')
+            Text(item.scenario)
+              .fontSize(12)
+              .fontColor('#5F6B61')
+              .lineHeight(18)
+          }
+          .width('100%')
+          .padding(12)
+          .backgroundColor('#FFFFFF')
+          .borderRadius(8)
+          .onClick(() => this.applyTemplate(item))
+        }, (item: GoalTemplate) => item.id)
+      }
+      .width('100%')
     }
     .featurePanelStyle()
   }
@@ -346,25 +380,25 @@ struct Index {
       Row({ space: 10 }) {
         Button('对话')
           .navButtonStyle()
-          .onClick(() => router.pushUrl({ url: 'pages/ChatPage' }))
+          .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/ChatPage' }))
         Button('任务')
           .navButtonStyle()
-          .onClick(() => router.pushUrl({ url: 'pages/TasksPage' }))
+          .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/TasksPage' }))
         Button('画像')
           .navButtonStyle()
-          .onClick(() => router.pushUrl({ url: 'pages/ProfilePage' }))
+          .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/ProfilePage' }))
       }
       .width('100%')
       Row({ space: 10 }) {
         Button('评审')
           .navButtonStyle()
-          .onClick(() => router.pushUrl({ url: 'pages/ReviewPage' }))
+          .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/ReviewPage' }))
         Button('提交')
           .navButtonStyle()
-          .onClick(() => router.pushUrl({ url: 'pages/SubmissionPage' }))
+          .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/SubmissionPage' }))
         Button('设置')
           .navButtonStyle()
-          .onClick(() => router.pushUrl({ url: 'pages/SettingsPage' }))
+          .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/SettingsPage' }))
       }
       .width('100%')
     }
@@ -380,6 +414,13 @@ struct Index {
       return '#8A5A12';
     }
     return '#667067';
+  }
+
+  private applyTemplate(item: GoalTemplate): void {
+    this.goal = item.goal;
+    this.plan = AgentService.createPlan(item.goal);
+    this.metrics = EvaluationService.evaluatePlan(this.plan);
+    this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
   }
 }
 

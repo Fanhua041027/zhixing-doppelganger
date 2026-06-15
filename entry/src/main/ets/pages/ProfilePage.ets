@@ -1,4 +1,3 @@
-import { router } from '@kit.ArkUI';
 import { ConflictNote, KnowledgeItem, MemoryItem, ProfileSignal, ReflectionItem } from '../models/AgentModels';
 import { KnowledgeRepository } from '../repositories/KnowledgeRepository';
 import { ProfileRepository } from '../repositories/ProfileRepository';
@@ -40,7 +39,7 @@ struct ProfilePage {
         .fontColor('#1F4E3A')
         .backgroundColor('#E3EADF')
         .borderRadius(8)
-        .onClick(() => router.back())
+        .onClick(() => this.getUIContext().getRouter().back())
       Blank()
       Text('个人画像')
         .fontSize(22)

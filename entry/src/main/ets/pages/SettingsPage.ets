@@ -1,4 +1,3 @@
-import { router } from '@kit.ArkUI';
 import { DemoModeState } from '../models/AgentModels';
 import { DemoModeService } from '../services/DemoModeService';
 import { HarmonyIntentService, SystemActionResult } from '../services/HarmonyIntentService';
@@ -41,7 +40,7 @@ struct SettingsPage {
         .fontColor('#1F4E3A')
         .backgroundColor('#E3EADF')
         .borderRadius(8)
-        .onClick(() => router.back())
+        .onClick(() => this.getUIContext().getRouter().back())
       Blank()
       Text('设置')
         .fontSize(22)
