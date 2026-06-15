@@ -126,7 +126,7 @@ struct ProfilePage {
             .fontSize(13)
             .fontColor('#5F6B61')
             .lineHeight(20)
-          Text(item.tags.join(' / '))
+          Text(formatKnowledgeTags(item.tags))
             .fontSize(12)
             .fontColor('#8A5A12')
         }
@@ -171,6 +171,19 @@ struct ProfilePage {
     }
     .pagePanel()
   }
+
+}
+
+function formatKnowledgeTags(tags: string[]): string {
+  let value: string = '';
+  tags.forEach((tag: string) => {
+    if (value.length === 0) {
+      value = tag;
+    } else {
+      value = `${value} / ${tag}`;
+    }
+  });
+  return value;
 }
 
 @Extend(Text)

@@ -68,3 +68,27 @@ export interface ReviewPoint {
   detail: string;
   scoreHint: string;
 }
+
+export interface TaskHistoryItem {
+  id: string;
+  goal: string;
+  intent: string;
+  taskCount: number;
+  deviceCount: number;
+  createdAt: string;
+}
+
+export interface DemoModeState {
+  title: string;
+  goal: string;
+  script: string;
+  enabled: boolean;
+}
+
+export interface DeviceFlowStep {
+  id: string;
+  device: string;
+  role: string;
+  handoff: string;
+  status: string;
+}

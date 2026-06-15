@@ -1,4 +1,4 @@
-import { AgentPlan } from '../models/AgentModels';
+import { AgentPlan, AgentTask } from '../models/AgentModels';
 
 export interface EvaluationMetric {
   label: string;
@@ -30,7 +30,7 @@ export class EvaluationService {
 
   private static countDevices(plan: AgentPlan): number {
     const devices: string[] = [];
-    plan.tasks.forEach((task) => {
+    plan.tasks.forEach((task: AgentTask) => {
       if (!devices.includes(task.device)) {
         devices.push(task.device);
       }

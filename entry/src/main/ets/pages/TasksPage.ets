@@ -1,16 +1,22 @@
 import { router } from '@kit.ArkUI';
-import { AgentPlan, AgentTask } from '../models/AgentModels';
+import { AgentPlan, AgentTask, DeviceFlowStep, TaskHistoryItem } from '../models/AgentModels';
 import { AgentService } from '../services/AgentService';
+import { DeviceFlowService } from '../services/DeviceFlowService';
 import { EvaluationMetric, EvaluationService } from '../services/EvaluationService';
+import { TaskHistoryService } from '../services/TaskHistoryService';
 
 const defaultTaskPlan: AgentPlan = AgentService.createPlan('准备第一版稳定竞赛演示');
 const defaultTaskMetrics: EvaluationMetric[] = EvaluationService.evaluatePlan(defaultTaskPlan);
+const defaultTaskFlow: DeviceFlowStep[] = DeviceFlowService.createFlowFromTasks(defaultTaskPlan.tasks);
+const defaultTaskHistory: TaskHistoryItem[] = TaskHistoryService.getHistory();
 
 @Entry
 @Component
 struct TasksPage {
   @State plan: AgentPlan = defaultTaskPlan;
   @State metrics: EvaluationMetric[] = defaultTaskMetrics;
+  @State history: TaskHistoryItem[] = defaultTaskHistory;
+  @State deviceFlow: DeviceFlowStep[] = defaultTaskFlow;
 
   build() {
     Scroll() {
@@ -18,7 +24,9 @@ struct TasksPage {
         this.TopBar()
         this.ProgressPanel()
         this.MetricsPanel()
+        this.DeviceFlowPanel()
         this.TaskList()
+        this.HistoryPanel()
       }
       .width('100%')
       .padding({ left: 20, right: 20, top: 24, bottom: 32 })
@@ -143,6 +151,89 @@ struct TasksPage {
       }, (metric: EvaluationMetric) => metric.label)
     }
     .width('100%')
+  }
+
+  @Builder
+  DeviceFlowPanel() {
+    Column({ space: 12 }) {
+      Text('设备分工')
+        .fontSize(18)
+        .fontWeight(FontWeight.Bold)
+        .fontColor('#17201A')
+        .width('100%')
+      ForEach(this.deviceFlow, (step: DeviceFlowStep) => {
+        Row({ space: 10 }) {
+          Text(step.device)
+            .fontSize(15)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#FFFFFF')
+            .width(72)
+            .height(48)
+            .textAlign(TextAlign.Center)
+            .backgroundColor('#1F4E3A')
+            .borderRadius(8)
+          Column({ space: 4 }) {
+            Text(step.role)
+              .fontSize(14)
+              .fontWeight(FontWeight.Medium)
+              .fontColor('#17201A')
+            Text(step.handoff)
+              .fontSize(12)
+              .fontColor('#5F6B61')
+              .lineHeight(18)
+          }
+          .layoutWeight(1)
+          .alignItems(HorizontalAlign.Start)
+        }
+        .width('100%')
+        .padding(12)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+      }, (step: DeviceFlowStep) => step.id)
+    }
+    .pagePanel()
+  }
+
+  @Builder
+  HistoryPanel() {
+    Column({ space: 12 }) {
+      Text('历史执行记录')
+        .fontSize(18)
+        .fontWeight(FontWeight.Bold)
+        .fontColor('#17201A')
+        .width('100%')
+      ForEach(this.history, (item: TaskHistoryItem) => {
+        Column({ space: 6 }) {
+          Row() {
+            Text(item.intent)
+              .fontSize(15)
+              .fontWeight(FontWeight.Medium)
+              .fontColor('#17201A')
+            Blank()
+            Text(item.createdAt)
+              .fontSize(12)
+              .fontColor('#8A5A12')
+          }
+          .width('100%')
+          Text(item.goal)
+            .fontSize(13)
+            .fontColor('#5F6B61')
+            .lineHeight(20)
+            .width('100%')
+          Text(`${item.taskCount} 个任务 / ${item.deviceCount} 类设备`)
+            .fontSize(12)
+            .fontColor('#1F4E3A')
+        }
+        .width('100%')
+        .padding(12)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+      }, (item: TaskHistoryItem) => item.id)
+    }
+    .width('100%')
+    .padding(16)
+    .backgroundColor('#EEF2EA')
+    .borderRadius(8)
   }
 }
 

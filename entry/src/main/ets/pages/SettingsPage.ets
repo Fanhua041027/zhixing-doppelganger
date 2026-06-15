@@ -1,7 +1,10 @@
 import { router } from '@kit.ArkUI';
+import { DemoModeState } from '../models/AgentModels';
+import { DemoModeService } from '../services/DemoModeService';
 import { HarmonyIntentService, SystemActionResult } from '../services/HarmonyIntentService';
 
 const defaultSystemAction: SystemActionResult = HarmonyIntentService.createCalendarDraft('鸿蒙智能体演示');
+const defaultDemoMode: DemoModeState = DemoModeService.getDefaultState();
 
 @Entry
 @Component
@@ -10,12 +13,14 @@ struct SettingsPage {
   @State crossDeviceEnabled: boolean = true;
   @State strictMode: boolean = true;
   @State actionResult: SystemActionResult = defaultSystemAction;
+  @State demoMode: DemoModeState = defaultDemoMode;
 
   build() {
     Scroll() {
       Column({ space: 16 }) {
         this.TopBar()
         this.SwitchPanel()
+        this.DemoModePanel()
         this.SystemActionPanel()
         this.RoadmapPanel()
       }
@@ -99,14 +104,54 @@ struct SettingsPage {
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
         .width('100%')
-      Text('1. 将画像和任务历史持久化到本地。')
+      Text('1. 将画像、任务历史和设备流转记录持久化到本地。')
         .roadmapText()
       Text('2. 接入真实日程和提醒系统能力。')
         .roadmapText()
-      Text('3. 做手机和平板间的任务流转原型，并提供兜底方案。')
+      Text('3. 做手机、平板和穿戴设备间的任务流转原型，并提供兜底方案。')
         .roadmapText()
     }
     .pagePanel()
+  }
+
+  @Builder
+  DemoModePanel() {
+    Column({ space: 10 }) {
+      Row() {
+        Text(this.demoMode.title)
+          .fontSize(18)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#17201A')
+        Blank()
+        Text(this.demoMode.enabled ? '已开启' : '已关闭')
+          .fontSize(12)
+          .fontColor(this.demoMode.enabled ? '#1F4E3A' : '#8A5A12')
+      }
+      .width('100%')
+      Text(this.demoMode.goal)
+        .fontSize(14)
+        .fontColor('#17201A')
+        .width('100%')
+      Text(this.demoMode.script)
+        .fontSize(13)
+        .fontColor('#5F6B61')
+        .lineHeight(20)
+        .width('100%')
+      Button(this.demoMode.enabled ? '切换普通模式' : '开启演示模式')
+        .height(40)
+        .width('100%')
+        .fontSize(14)
+        .fontColor('#FFFFFF')
+        .backgroundColor('#1F4E3A')
+        .borderRadius(8)
+        .onClick(() => {
+          this.demoMode = this.demoMode.enabled ? DemoModeService.disable() : DemoModeService.getDefaultState();
+        })
+    }
+    .width('100%')
+    .padding(16)
+    .backgroundColor('#EEF2EA')
+    .borderRadius(8)
   }
 
   @Builder

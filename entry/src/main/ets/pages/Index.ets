@@ -1,12 +1,14 @@
 import { router } from '@kit.ArkUI';
-import { AgentPlan, AgentTask, ProfileSignal } from '../models/AgentModels';
+import { AgentPlan, AgentTask, DeviceFlowStep, ProfileSignal } from '../models/AgentModels';
 import { ProfileRepository } from '../repositories/ProfileRepository';
 import { AgentService } from '../services/AgentService';
+import { DeviceFlowService } from '../services/DeviceFlowService';
 import { EvaluationMetric, EvaluationService } from '../services/EvaluationService';
 
 const defaultIndexGoal: string = '三天内完成鸿蒙智能体竞赛演示';
 const defaultIndexPlan: AgentPlan = AgentService.createPlan(defaultIndexGoal);
 const defaultIndexMetrics: EvaluationMetric[] = EvaluationService.evaluatePlan(defaultIndexPlan);
+const defaultDeviceFlow: DeviceFlowStep[] = DeviceFlowService.createFlowFromTasks(defaultIndexPlan.tasks);
 
 @Entry
 @Component
@@ -14,6 +16,7 @@ struct Index {
   @State goal: string = defaultIndexGoal;
   @State plan: AgentPlan = defaultIndexPlan;
   @State metrics: EvaluationMetric[] = defaultIndexMetrics;
+  @State deviceFlow: DeviceFlowStep[] = defaultDeviceFlow;
   private profileSignals: ProfileSignal[] = ProfileRepository.getProfileSignals();
 
   build() {
@@ -22,6 +25,7 @@ struct Index {
         this.Header()
         this.GoalPanel()
         this.AgentPanel()
+        this.DeviceFlowPanel()
         this.TaskFlow()
         this.MetricsPanel()
         this.ProfilePanel()
@@ -114,6 +118,7 @@ struct Index {
           this.goal = value;
           this.plan = AgentService.createPlan(value);
           this.metrics = EvaluationService.evaluatePlan(this.plan);
+          this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
         })
 
       Button('生成执行计划')
@@ -127,6 +132,7 @@ struct Index {
         .onClick(() => {
           this.plan = AgentService.createPlan(this.goal);
           this.metrics = EvaluationService.evaluatePlan(this.plan);
+          this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
         })
     }
     .featurePanelStyle()
@@ -217,6 +223,55 @@ struct Index {
         .backgroundColor('#FFFFFF')
         .borderRadius(8)
       }, (task: AgentTask) => task.id)
+    }
+    .featurePanelStyle()
+  }
+
+  @Builder
+  DeviceFlowPanel() {
+    Column({ space: 12 }) {
+      Row() {
+        Text('鸿蒙跨设备流转')
+          .fontSize(18)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#17201A')
+        Blank()
+        Text('三端协同')
+          .fontSize(12)
+          .fontColor('#2D5D46')
+          .padding({ left: 10, right: 10, top: 4, bottom: 4 })
+          .backgroundColor('#DDEDDD')
+          .borderRadius(6)
+      }
+      .width('100%')
+
+      ForEach(this.deviceFlow, (step: DeviceFlowStep) => {
+        Column({ space: 6 }) {
+          Row() {
+            Text(step.device)
+              .fontSize(16)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('#17201A')
+            Blank()
+            Text(step.status)
+              .fontSize(12)
+              .fontColor('#8A5A12')
+          }
+          .width('100%')
+          Text(step.role)
+            .fontSize(13)
+            .fontColor('#1F4E3A')
+            .width('100%')
+          Text(step.handoff)
+            .fontSize(13)
+            .fontColor('#5F6B61')
+            .lineHeight(20)
+            .width('100%')
+        }
+        .padding(12)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+      }, (step: DeviceFlowStep) => step.id)
     }
     .featurePanelStyle()
   }

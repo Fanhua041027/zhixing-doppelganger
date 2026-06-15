@@ -12,7 +12,7 @@ export class ReviewService {
       {
         id: 'review-technical',
         title: '技术完整度',
-        detail: '页面、模型、仓储、服务分层清晰，已预留 RAG、系统能力和持久化接口。',
+        detail: '页面、模型、仓储、服务分层清晰，已预留检索增强、系统能力和持久化接口。',
         scoreHint: '证明不是单页演示，而是可扩展工程。'
       },
       {

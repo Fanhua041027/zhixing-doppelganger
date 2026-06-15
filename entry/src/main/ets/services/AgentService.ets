@@ -1,6 +1,7 @@
 import { AgentPlan, AgentTask, KnowledgeHit, KnowledgeItem } from '../models/AgentModels';
 import { LocalStore } from '../repositories/LocalStore';
 import { KnowledgeRepository } from '../repositories/KnowledgeRepository';
+import { TaskHistoryService } from './TaskHistoryService';
 
 export class AgentService {
   static createPlan(goal: string): AgentPlan {
@@ -18,6 +19,7 @@ export class AgentService {
     };
     LocalStore.savePlan(plan);
     LocalStore.saveKnowledge(KnowledgeRepository.getKnowledgeItems());
+    TaskHistoryService.recordPlan(plan);
     return plan;
   }
 
@@ -46,7 +48,7 @@ export class AgentService {
         device: '手机',
         time: '立即',
         status: '进行中',
-        priority: 'P0'
+        priority: '最高'
       },
       {
         id: 'task-plan',
@@ -55,7 +57,7 @@ export class AgentService {
         device: '平板',
         time: '30 分钟后',
         status: '待执行',
-        priority: 'P0'
+        priority: '最高'
       },
       {
         id: 'task-review',
@@ -64,7 +66,7 @@ export class AgentService {
         device: '穿戴设备',
         time: '今晚',
         status: '待同步',
-        priority: 'P1'
+        priority: '重要'
       }
     ];
     return tasks;
