@@ -165,3 +165,10 @@ export interface ResourceSearchResult {
   excerpt: string;
   score: number;
 }
+
+export interface NextStepSuggestion {
+  id: string;
+  title: string;
+  detail: string;
+  reason: string;
+}

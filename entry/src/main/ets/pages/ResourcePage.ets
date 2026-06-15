@@ -1,8 +1,9 @@
-import { ImportedResource, ResourceSearchResult } from '../models/AgentModels';
+import { AgentTask, ImportedResource, ResourceSearchResult } from '../models/AgentModels';
 import { ResourceLibraryService } from '../services/ResourceLibraryService';
 
 const defaultResources: ImportedResource[] = ResourceLibraryService.getResources();
 const defaultResults: ResourceSearchResult[] = ResourceLibraryService.search('演示');
+const defaultResourceTasks: AgentTask[] = ResourceLibraryService.createTasksFromResource(defaultResources[0]);
 
 @Entry
 @Component
@@ -12,6 +13,7 @@ struct ResourcePage {
   @State query: string = '演示';
   @State resources: ImportedResource[] = defaultResources;
   @State results: ResourceSearchResult[] = defaultResults;
+  @State resourceTasks: AgentTask[] = defaultResourceTasks;
   @State importTip: string = '支持先用文本粘贴导入，后续可接入系统文件选择器。';
 
   build() {
@@ -20,6 +22,7 @@ struct ResourcePage {
         this.TopBar()
         this.ImportPanel()
         this.SearchPanel()
+        this.GeneratedTaskPanel()
         this.ResourceList()
       }
       .width('100%')
@@ -89,9 +92,58 @@ struct ResourcePage {
           ResourceLibraryService.importText(this.title, this.content).then((items: ImportedResource[]) => {
             this.resources = items;
             this.results = ResourceLibraryService.search(this.query);
+            this.resourceTasks = ResourceLibraryService.createTasksFromResource(items[0]);
             this.importTip = '已导入，本地检索和对话依据会优先使用这份资料。';
           });
         })
+    }
+    .pagePanel()
+  }
+
+  @Builder
+  GeneratedTaskPanel() {
+    Column({ space: 12 }) {
+      Row() {
+        Text('资料生成任务')
+          .fontSize(18)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#17201A')
+        Blank()
+        Text('可执行')
+          .fontSize(12)
+          .fontColor('#1F4E3A')
+          .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+          .backgroundColor('#DDEDDD')
+          .borderRadius(6)
+      }
+      .width('100%')
+      ForEach(this.resourceTasks, (task: AgentTask) => {
+        Column({ space: 6 }) {
+          Row() {
+            Text(task.title)
+              .fontSize(15)
+              .fontWeight(FontWeight.Medium)
+              .fontColor('#17201A')
+            Blank()
+            Text(task.device)
+              .fontSize(12)
+              .fontColor('#8A5A12')
+          }
+          .width('100%')
+          Text(task.detail)
+            .fontSize(13)
+            .fontColor('#5F6B61')
+            .lineHeight(20)
+            .width('100%')
+          Text(`${task.priority} / ${task.time}`)
+            .fontSize(12)
+            .fontColor('#1F4E3A')
+        }
+        .width('100%')
+        .padding(12)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+      }, (task: AgentTask) => task.id)
     }
     .pagePanel()
   }

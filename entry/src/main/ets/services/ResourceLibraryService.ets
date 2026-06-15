@@ -1,4 +1,4 @@
-import { ImportedResource, KnowledgeItem, ResourceSearchResult } from '../models/AgentModels';
+import { AgentTask, ImportedResource, KnowledgeItem, ResourceSearchResult } from '../models/AgentModels';
 import { LocalStore } from '../repositories/LocalStore';
 import { KnowledgeRepository } from '../repositories/KnowledgeRepository';
 import { PersistentStoreService } from './PersistentStoreService';
@@ -74,6 +74,39 @@ export class ResourceLibraryService {
       items.push(item);
     });
     return items;
+  }
+
+  static createTasksFromResource(resource: ImportedResource): AgentTask[] {
+    const tasks: AgentTask[] = [
+      {
+        id: `resource-task-read-${resource.id}`,
+        title: '提炼资料重点',
+        detail: `阅读“${resource.title}”，整理三个最重要的概念或结论。`,
+        device: '平板',
+        time: '今天',
+        status: '待执行',
+        priority: '最高'
+      },
+      {
+        id: `resource-task-card-${resource.id}`,
+        title: '生成学习卡片',
+        detail: '把资料内容转成可复述的学习卡片，并标注不理解的问题。',
+        device: '手机',
+        time: '30 分钟后',
+        status: '待执行',
+        priority: '重要'
+      },
+      {
+        id: `resource-task-review-${resource.id}`,
+        title: '安排资料复盘',
+        detail: '复盘资料是否能支撑当前学习目标，必要时回到对话页追问。',
+        device: '穿戴设备',
+        time: '今晚',
+        status: '待同步',
+        priority: '重要'
+      }
+    ];
+    return tasks;
   }
 
   private static score(query: string, content: string): number {

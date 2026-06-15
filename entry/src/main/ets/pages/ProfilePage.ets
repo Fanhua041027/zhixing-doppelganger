@@ -1,7 +1,8 @@
-import { ConflictNote, KnowledgeItem, MemoryItem, ProfileSignal, ReflectionItem } from '../models/AgentModels';
+import { ConflictNote, KnowledgeItem, MemoryItem, NextStepSuggestion, ProfileSignal, ReflectionItem } from '../models/AgentModels';
 import { KnowledgeRepository } from '../repositories/KnowledgeRepository';
 import { ProfileRepository } from '../repositories/ProfileRepository';
 import { ExecutionService } from '../services/ExecutionService';
+import { NextStepService } from '../services/NextStepService';
 
 @Entry
 @Component
@@ -11,6 +12,7 @@ struct ProfilePage {
   private knowledgeItems: KnowledgeItem[] = KnowledgeRepository.getKnowledgeItems();
   private conflicts: ConflictNote[] = KnowledgeRepository.getConflictNotes();
   private reflections: ReflectionItem[] = ExecutionService.getReflections();
+  private nextSteps: NextStepSuggestion[] = NextStepService.getSuggestions();
 
   build() {
     Scroll() {
@@ -18,6 +20,7 @@ struct ProfilePage {
         this.TopBar()
         this.SignalPanel()
         this.ReflectionPanel()
+        this.NextStepPanel()
         this.MemoryPanel()
         this.KnowledgePanel()
         this.ConflictPanel()
@@ -124,6 +127,40 @@ struct ProfilePage {
         .backgroundColor('#FFFFFF')
         .borderRadius(8)
       }, (item: ReflectionItem) => item.id)
+    }
+    .pagePanel()
+  }
+
+  @Builder
+  NextStepPanel() {
+    Column({ space: 12 }) {
+      Text('下一步建议')
+        .fontSize(18)
+        .fontWeight(FontWeight.Bold)
+        .fontColor('#17201A')
+        .width('100%')
+      ForEach(this.nextSteps, (item: NextStepSuggestion) => {
+        Column({ space: 6 }) {
+          Text(item.title)
+            .fontSize(16)
+            .fontWeight(FontWeight.Medium)
+            .fontColor('#17201A')
+          Text(item.detail)
+            .fontSize(13)
+            .fontColor('#5F6B61')
+            .lineHeight(20)
+            .width('100%')
+          Text(item.reason)
+            .fontSize(12)
+            .fontColor('#8A5A12')
+            .lineHeight(18)
+            .width('100%')
+        }
+        .width('100%')
+        .padding(12)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+      }, (item: NextStepSuggestion) => item.id)
     }
     .pagePanel()
   }
