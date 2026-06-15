@@ -61,3 +61,10 @@ export interface ChatTurnResult {
   evidence: KnowledgeHit[];
   nextAction: string;
 }
+
+export interface ReviewPoint {
+  id: string;
+  title: string;
+  detail: string;
+  scoreHint: string;
+}

@@ -65,6 +65,7 @@ struct Index {
         this.SignalPill('对话')
         this.SignalPill('任务')
         this.SignalPill('画像')
+        this.SignalPill('评审')
         this.SignalPill('流转')
       }
       .width('100%')
@@ -296,6 +297,9 @@ struct Index {
       Button('画像')
         .navButtonStyle()
         .onClick(() => router.pushUrl({ url: 'pages/ProfilePage' }))
+      Button('评审')
+        .navButtonStyle()
+        .onClick(() => router.pushUrl({ url: 'pages/ReviewPage' }))
       Button('设置')
         .navButtonStyle()
         .onClick(() => router.pushUrl({ url: 'pages/SettingsPage' }))

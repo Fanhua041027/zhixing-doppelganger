@@ -4,6 +4,7 @@
     "pages/ChatPage",
     "pages/TasksPage",
     "pages/ProfilePage",
+    "pages/ReviewPage",
     "pages/SettingsPage"
   ]
 }
