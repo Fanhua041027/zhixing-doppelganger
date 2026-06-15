@@ -150,3 +150,18 @@ export interface TodayAction {
   detail: string;
   output: string;
 }
+
+export interface ImportedResource {
+  id: string;
+  title: string;
+  content: string;
+  source: string;
+  createdAt: string;
+}
+
+export interface ResourceSearchResult {
+  id: string;
+  title: string;
+  excerpt: string;
+  score: number;
+}

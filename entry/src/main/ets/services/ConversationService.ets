@@ -1,5 +1,6 @@
 import { ChatMessage, ChatTurnResult, KnowledgeHit, KnowledgeItem } from '../models/AgentModels';
 import { KnowledgeRepository } from '../repositories/KnowledgeRepository';
+import { ResourceLibraryService } from './ResourceLibraryService';
 
 export class ConversationService {
   static startConversation(): ChatTurnResult {
@@ -48,7 +49,7 @@ export class ConversationService {
 
   private static retrieveEvidence(input: string): KnowledgeHit[] {
     const lowerInput: string = input.toLowerCase();
-    const items: KnowledgeItem[] = KnowledgeRepository.getKnowledgeItems();
+    const items: KnowledgeItem[] = ResourceLibraryService.toKnowledgeItems();
     const hits: KnowledgeHit[] = items.map((item: KnowledgeItem): KnowledgeHit => {
       const hit: KnowledgeHit = {
         title: item.title,

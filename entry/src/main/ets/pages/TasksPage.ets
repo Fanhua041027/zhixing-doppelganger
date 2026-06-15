@@ -4,6 +4,7 @@ import { DeviceFlowService } from '../services/DeviceFlowService';
 import { EvaluationMetric, EvaluationService } from '../services/EvaluationService';
 import { ExecutionService } from '../services/ExecutionService';
 import { TaskHistoryService } from '../services/TaskHistoryService';
+import { TaskPersistenceService } from '../services/TaskPersistenceService';
 
 const defaultTaskPlan: AgentPlan = AgentService.createPlan('准备第一版稳定竞赛演示');
 const defaultTaskMetrics: EvaluationMetric[] = EvaluationService.evaluatePlan(defaultTaskPlan);
@@ -113,6 +114,21 @@ struct TasksPage {
         .backgroundColor('#E3EADF')
         .borderRadius(8)
         .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/ProfilePage' }))
+      Button('恢复本地状态')
+        .height(40)
+        .width('100%')
+        .fontSize(14)
+        .fontColor('#1F4E3A')
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+        .onClick(() => {
+          TaskPersistenceService.restoreTaskStatuses(this.plan).then((plan: AgentPlan) => {
+            this.plan = plan;
+            this.metrics = EvaluationService.evaluatePlan(this.plan);
+            this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
+            this.snapshot = ExecutionService.createSnapshot(this.plan);
+          });
+        })
     }
     .pagePanel()
   }
@@ -156,6 +172,19 @@ struct TasksPage {
                 .fontColor(this.statusColor(task.status))
             }
             .width('100%')
+            Button(task.status === '已完成' ? '已完成' : '标记完成')
+              .height(34)
+              .width('100%')
+              .fontSize(13)
+              .fontColor(task.status === '已完成' ? '#667067' : '#FFFFFF')
+              .backgroundColor(task.status === '已完成' ? '#E3EADF' : '#1F4E3A')
+              .borderRadius(8)
+              .onClick(() => {
+                this.plan = TaskPersistenceService.markTaskDone(this.plan, task.id);
+                this.metrics = EvaluationService.evaluatePlan(this.plan);
+                this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
+                this.snapshot = ExecutionService.createSnapshot(this.plan);
+              })
           }
           .layoutWeight(1)
           .alignItems(HorizontalAlign.Start)

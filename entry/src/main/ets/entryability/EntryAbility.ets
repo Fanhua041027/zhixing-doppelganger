@@ -1,6 +1,7 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
+import { PersistentStoreService } from '../services/PersistentStoreService';
 
 const DOMAIN = 0x0000;
 
@@ -8,6 +9,7 @@ export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     try {
       this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
+      PersistentStoreService.init(this.context);
     } catch (err) {
       hilog.error(DOMAIN, 'testTag', '设置颜色模式失败。原因：%{public}s', JSON.stringify(err));
     }

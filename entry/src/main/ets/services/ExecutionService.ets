@@ -1,5 +1,6 @@
 import { AgentPlan, AgentTask, ExecutionSnapshot, ReflectionItem } from '../models/AgentModels';
 import { LocalStore } from '../repositories/LocalStore';
+import { TaskPersistenceService } from './TaskPersistenceService';
 
 export class ExecutionService {
   static getInitialSnapshot(plan: AgentPlan): ExecutionSnapshot {
@@ -34,6 +35,7 @@ export class ExecutionService {
       systemAction: plan.systemAction
     };
     LocalStore.savePlan(nextPlan);
+    TaskPersistenceService.saveTaskStatuses(nextPlan);
     ExecutionService.recordReflection(nextPlan);
     return nextPlan;
   }

@@ -181,6 +181,26 @@ struct SettingsPage {
         .onClick(() => {
           this.actionResult = HarmonyIntentService.createReviewReminder('鸿蒙智能体演示');
         })
+      Button('准备日历调用')
+        .height(40)
+        .width('100%')
+        .fontSize(14)
+        .fontColor('#1F4E3A')
+        .backgroundColor('#E3EADF')
+        .borderRadius(8)
+        .onClick(() => {
+          this.actionResult = HarmonyIntentService.openCalendarIntent('鸿蒙智能体演示');
+        })
+      Button('准备提醒调用')
+        .height(40)
+        .width('100%')
+        .fontSize(14)
+        .fontColor('#1F4E3A')
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+        .onClick(() => {
+          this.actionResult = HarmonyIntentService.openReminderIntent('鸿蒙智能体演示');
+        })
     }
     .pagePanel()
   }

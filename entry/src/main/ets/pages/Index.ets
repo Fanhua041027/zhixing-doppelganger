@@ -77,6 +77,7 @@ struct Index {
         this.SignalPill('意图')
         this.SignalPill('对话')
         this.SignalPill('任务')
+        this.SignalPill('资料')
         this.SignalPill('画像')
         this.SignalPill('评审')
         this.SignalPill('流转')
@@ -486,21 +487,30 @@ struct Index {
         Button('任务')
           .navButtonStyle()
           .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/TasksPage' }))
-        Button('画像')
+        Button('资料')
           .navButtonStyle()
-          .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/ProfilePage' }))
+          .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/ResourcePage' }))
       }
       .width('100%')
       Row({ space: 10 }) {
+        Button('画像')
+          .navButtonStyle()
+          .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/ProfilePage' }))
         Button('评审')
           .navButtonStyle()
           .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/ReviewPage' }))
         Button('提交')
           .navButtonStyle()
           .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/SubmissionPage' }))
+      }
+      .width('100%')
+      Row({ space: 10 }) {
         Button('设置')
           .navButtonStyle()
           .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/SettingsPage' }))
+        Button('配置')
+          .navButtonStyle()
+          .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/PlanConfigPage' }))
       }
       .width('100%')
     }

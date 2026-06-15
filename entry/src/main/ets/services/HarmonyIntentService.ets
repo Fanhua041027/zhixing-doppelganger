@@ -22,4 +22,22 @@ export class HarmonyIntentService {
     };
     return result;
   }
+
+  static openCalendarIntent(goal: string): SystemActionResult {
+    const result: SystemActionResult = {
+      title: '日历意图已准备',
+      detail: `已生成“${goal}”的日历调用参数。正式接入时会通过系统能力拉起日历并填入任务信息。`,
+      available: true
+    };
+    return result;
+  }
+
+  static openReminderIntent(goal: string): SystemActionResult {
+    const result: SystemActionResult = {
+      title: '提醒意图已准备',
+      detail: `已生成“${goal}”的提醒调用参数。正式接入时会创建复盘提醒。`,
+      available: true
+    };
+    return result;
+  }
 }

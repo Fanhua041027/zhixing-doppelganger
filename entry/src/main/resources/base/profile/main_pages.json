@@ -2,6 +2,7 @@
   "src": [
     "pages/Index",
     "pages/PlanConfigPage",
+    "pages/ResourcePage",
     "pages/ChatPage",
     "pages/TasksPage",
     "pages/ProfilePage",
