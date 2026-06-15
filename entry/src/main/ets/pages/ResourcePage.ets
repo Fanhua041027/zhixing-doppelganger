@@ -1,5 +1,6 @@
 import { AgentTask, ImportedResource, ResourceSearchResult } from '../models/AgentModels';
 import { ResourceLibraryService } from '../services/ResourceLibraryService';
+import { TaskPersistenceService } from '../services/TaskPersistenceService';
 
 const defaultResources: ImportedResource[] = ResourceLibraryService.getResources();
 const defaultResults: ResourceSearchResult[] = ResourceLibraryService.search('演示');
@@ -15,6 +16,7 @@ struct ResourcePage {
   @State results: ResourceSearchResult[] = defaultResults;
   @State resourceTasks: AgentTask[] = defaultResourceTasks;
   @State importTip: string = '支持先用文本粘贴导入，后续可接入系统文件选择器。';
+  @State taskTip: string = '生成的任务可以加入任务看板。';
 
   build() {
     Scroll() {
@@ -144,6 +146,23 @@ struct ResourcePage {
         .backgroundColor('#FFFFFF')
         .borderRadius(8)
       }, (task: AgentTask) => task.id)
+      Text(this.taskTip)
+        .fontSize(12)
+        .fontColor('#8A5A12')
+        .lineHeight(18)
+        .width('100%')
+      Button('加入任务看板')
+        .height(40)
+        .width('100%')
+        .fontSize(14)
+        .fontColor('#FFFFFF')
+        .backgroundColor('#1F4E3A')
+        .borderRadius(8)
+        .onClick(() => {
+          TaskPersistenceService.addExtraTasks(this.resourceTasks).then(() => {
+            this.taskTip = '已加入任务看板，可到任务页恢复本地状态查看。';
+          });
+        })
     }
     .pagePanel()
   }

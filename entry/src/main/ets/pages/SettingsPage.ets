@@ -1,3 +1,5 @@
+import common from '@ohos.app.ability.common';
+import Want from '@ohos.app.ability.Want';
 import { DemoModeState } from '../models/AgentModels';
 import { DemoModeService } from '../services/DemoModeService';
 import { HarmonyIntentService, SystemActionResult } from '../services/HarmonyIntentService';
@@ -13,6 +15,7 @@ struct SettingsPage {
   @State strictMode: boolean = true;
   @State actionResult: SystemActionResult = defaultSystemAction;
   @State demoMode: DemoModeState = defaultDemoMode;
+  @State launchTip: string = '系统能力会优先尝试拉起系统应用，失败时保留调用参数。';
 
   build() {
     Scroll() {
@@ -171,6 +174,11 @@ struct SettingsPage {
         .fontColor('#5F6B61')
         .lineHeight(20)
         .width('100%')
+      Text(this.launchTip)
+        .fontSize(12)
+        .fontColor('#8A5A12')
+        .lineHeight(18)
+        .width('100%')
       Button('准备复盘提醒')
         .height(40)
         .width('100%')
@@ -190,6 +198,7 @@ struct SettingsPage {
         .borderRadius(8)
         .onClick(() => {
           this.actionResult = HarmonyIntentService.openCalendarIntent('鸿蒙智能体演示');
+          this.tryStartSystemAbility('日历');
         })
       Button('准备提醒调用')
         .height(40)
@@ -200,9 +209,31 @@ struct SettingsPage {
         .borderRadius(8)
         .onClick(() => {
           this.actionResult = HarmonyIntentService.openReminderIntent('鸿蒙智能体演示');
+          this.tryStartSystemAbility('提醒');
         })
     }
     .pagePanel()
+  }
+
+  private tryStartSystemAbility(type: string): void {
+    const hostContext = this.getUIContext().getHostContext();
+    if (hostContext === undefined) {
+      this.launchTip = '当前页面上下文不可用，已保留系统调用参数。';
+      return;
+    }
+    const context = hostContext as common.UIAbilityContext;
+    const want: Want = {
+      action: 'ohos.want.action.viewData',
+      parameters: {
+        title: type === '日历' ? '鸿蒙智能体演示' : '复盘提醒',
+        description: '知行分身生成的学习执行安排'
+      }
+    };
+    context.startAbility(want).then(() => {
+      this.launchTip = `已尝试拉起系统${type}能力。`;
+    }).catch(() => {
+      this.launchTip = `当前设备未响应系统${type}意图，已保留调用参数用于正式接入。`;
+    });
   }
 }
 

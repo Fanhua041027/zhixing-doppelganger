@@ -122,11 +122,14 @@ struct TasksPage {
         .backgroundColor('#FFFFFF')
         .borderRadius(8)
         .onClick(() => {
-          TaskPersistenceService.restoreTaskStatuses(this.plan).then((plan: AgentPlan) => {
-            this.plan = plan;
-            this.metrics = EvaluationService.evaluatePlan(this.plan);
-            this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
-            this.snapshot = ExecutionService.createSnapshot(this.plan);
+          TaskPersistenceService.restoreExtraTasks().then(() => {
+            const mergedPlan: AgentPlan = TaskPersistenceService.mergeExtraTasks(this.plan);
+            TaskPersistenceService.restoreTaskStatuses(mergedPlan).then((plan: AgentPlan) => {
+              this.plan = plan;
+              this.metrics = EvaluationService.evaluatePlan(this.plan);
+              this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
+              this.snapshot = ExecutionService.createSnapshot(this.plan);
+            });
           });
         })
     }

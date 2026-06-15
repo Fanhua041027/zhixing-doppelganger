@@ -1,8 +1,9 @@
-import { ConflictNote, KnowledgeItem, MemoryItem, NextStepSuggestion, ProfileSignal, ReflectionItem } from '../models/AgentModels';
+import { AgentTask, ConflictNote, KnowledgeItem, MemoryItem, NextStepSuggestion, ProfileSignal, ReflectionItem } from '../models/AgentModels';
 import { KnowledgeRepository } from '../repositories/KnowledgeRepository';
 import { ProfileRepository } from '../repositories/ProfileRepository';
 import { ExecutionService } from '../services/ExecutionService';
 import { NextStepService } from '../services/NextStepService';
+import { TaskPersistenceService } from '../services/TaskPersistenceService';
 
 @Entry
 @Component
@@ -13,6 +14,7 @@ struct ProfilePage {
   private conflicts: ConflictNote[] = KnowledgeRepository.getConflictNotes();
   private reflections: ReflectionItem[] = ExecutionService.getReflections();
   private nextSteps: NextStepSuggestion[] = NextStepService.getSuggestions();
+  @State nextStepTip: string = '可以把建议加入任务看板。';
 
   build() {
     Scroll() {
@@ -161,6 +163,26 @@ struct ProfilePage {
         .backgroundColor('#FFFFFF')
         .borderRadius(8)
       }, (item: NextStepSuggestion) => item.id)
+      Text(this.nextStepTip)
+        .fontSize(12)
+        .fontColor('#8A5A12')
+        .lineHeight(18)
+        .width('100%')
+      Button('加入任务看板')
+        .height(40)
+        .width('100%')
+        .fontSize(14)
+        .fontColor('#FFFFFF')
+        .backgroundColor('#1F4E3A')
+        .borderRadius(8)
+        .onClick(() => {
+          const tasks: AgentTask[] = this.nextSteps.map((item: NextStepSuggestion): AgentTask => {
+            return NextStepService.createTaskFromSuggestion(item);
+          });
+          TaskPersistenceService.addExtraTasks(tasks).then(() => {
+            this.nextStepTip = '已加入任务看板，可到任务页恢复本地状态查看。';
+          });
+        })
     }
     .pagePanel()
   }
