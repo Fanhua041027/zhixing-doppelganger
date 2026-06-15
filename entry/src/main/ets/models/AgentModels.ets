@@ -69,6 +69,20 @@ export interface ReviewPoint {
   scoreHint: string;
 }
 
+export interface SubmissionCheckItem {
+  id: string;
+  title: string;
+  detail: string;
+  status: string;
+}
+
+export interface RiskControlItem {
+  id: string;
+  risk: string;
+  fallback: string;
+  owner: string;
+}
+
 export interface TaskHistoryItem {
   id: string;
   goal: string;

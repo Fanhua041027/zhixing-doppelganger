@@ -342,22 +342,31 @@ struct Index {
 
   @Builder
   NavigationPanel() {
-    Row({ space: 10 }) {
-      Button('对话')
-        .navButtonStyle()
-        .onClick(() => router.pushUrl({ url: 'pages/ChatPage' }))
-      Button('任务')
-        .navButtonStyle()
-        .onClick(() => router.pushUrl({ url: 'pages/TasksPage' }))
-      Button('画像')
-        .navButtonStyle()
-        .onClick(() => router.pushUrl({ url: 'pages/ProfilePage' }))
-      Button('评审')
-        .navButtonStyle()
-        .onClick(() => router.pushUrl({ url: 'pages/ReviewPage' }))
-      Button('设置')
-        .navButtonStyle()
-        .onClick(() => router.pushUrl({ url: 'pages/SettingsPage' }))
+    Column({ space: 10 }) {
+      Row({ space: 10 }) {
+        Button('对话')
+          .navButtonStyle()
+          .onClick(() => router.pushUrl({ url: 'pages/ChatPage' }))
+        Button('任务')
+          .navButtonStyle()
+          .onClick(() => router.pushUrl({ url: 'pages/TasksPage' }))
+        Button('画像')
+          .navButtonStyle()
+          .onClick(() => router.pushUrl({ url: 'pages/ProfilePage' }))
+      }
+      .width('100%')
+      Row({ space: 10 }) {
+        Button('评审')
+          .navButtonStyle()
+          .onClick(() => router.pushUrl({ url: 'pages/ReviewPage' }))
+        Button('提交')
+          .navButtonStyle()
+          .onClick(() => router.pushUrl({ url: 'pages/SubmissionPage' }))
+        Button('设置')
+          .navButtonStyle()
+          .onClick(() => router.pushUrl({ url: 'pages/SettingsPage' }))
+      }
+      .width('100%')
     }
     .width('100%')
     .padding({ top: 4 })

@@ -1,4 +1,4 @@
-import { ReviewPoint } from '../models/AgentModels';
+import { ReviewPoint, RiskControlItem, SubmissionCheckItem } from '../models/AgentModels';
 
 export class ReviewService {
   static getReviewPoints(): ReviewPoint[] {
@@ -29,5 +29,59 @@ export class ReviewService {
       }
     ];
     return points;
+  }
+
+  static getSubmissionChecks(): SubmissionCheckItem[] {
+    const items: SubmissionCheckItem[] = [
+      {
+        id: 'check-core',
+        title: '核心闭环',
+        detail: '目标输入、意图识别、任务拆解、依据展示和评测指标已形成可演示路径。',
+        status: '已完成'
+      },
+      {
+        id: 'check-harmony',
+        title: '鸿蒙特色',
+        detail: '首页和任务页都显式展示手机、平板、穿戴设备的协同分工。',
+        status: '已完成'
+      },
+      {
+        id: 'check-persona',
+        title: '个人分身',
+        detail: '画像、记忆、知识和冲突记录已结构化，后续可替换为真实个人数据。',
+        status: '已完成'
+      },
+      {
+        id: 'check-system',
+        title: '系统能力',
+        detail: '日程草稿和复盘提醒已封装在服务层，方便接入真实系统意图。',
+        status: '可扩展'
+      }
+    ];
+    return items;
+  }
+
+  static getRiskControls(): RiskControlItem[] {
+    const items: RiskControlItem[] = [
+      {
+        id: 'risk-network',
+        risk: '模型或网络接口不稳定',
+        fallback: '主演示使用本地确定性智能体链路，保证离线也能展示完整流程。',
+        owner: '演示稳定性'
+      },
+      {
+        id: 'risk-device',
+        risk: '现场多设备调试时间不足',
+        fallback: '先用页面内跨设备流转图说明分工，再接入真实设备同步。',
+        owner: '鸿蒙特色'
+      },
+      {
+        id: 'risk-scope',
+        risk: '功能范围过大导致主线分散',
+        fallback: '答辩固定围绕“输入目标到执行卡片”讲解，不展开无关能力。',
+        owner: '答辩节奏'
+      }
+    ];
+    return items;
   }
 }

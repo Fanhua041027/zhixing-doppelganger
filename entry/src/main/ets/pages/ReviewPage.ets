@@ -1,13 +1,17 @@
 import { router } from '@kit.ArkUI';
-import { ReviewPoint } from '../models/AgentModels';
+import { ReviewPoint, RiskControlItem, SubmissionCheckItem } from '../models/AgentModels';
 import { ReviewService } from '../services/ReviewService';
 
 const defaultReviewPoints: ReviewPoint[] = ReviewService.getReviewPoints();
+const defaultChecks: SubmissionCheckItem[] = ReviewService.getSubmissionChecks();
+const defaultRisks: RiskControlItem[] = ReviewService.getRiskControls();
 
 @Entry
 @Component
 struct ReviewPage {
   private points: ReviewPoint[] = defaultReviewPoints;
+  private checks: SubmissionCheckItem[] = defaultChecks;
+  private risks: RiskControlItem[] = defaultRisks;
 
   build() {
     Scroll() {
@@ -15,6 +19,8 @@ struct ReviewPage {
         this.TopBar()
         this.SummaryPanel()
         this.PointsPanel()
+        this.CompletionPanel()
+        this.RiskPanel()
         this.RoutePanel()
       }
       .width('100%')
@@ -111,6 +117,75 @@ struct ReviewPage {
   }
 
   @Builder
+  CompletionPanel() {
+    Column({ space: 12 }) {
+      Text('完成度证据')
+        .fontSize(18)
+        .fontWeight(FontWeight.Bold)
+        .fontColor('#17201A')
+        .width('100%')
+      ForEach(this.checks, (item: SubmissionCheckItem) => {
+        Row({ space: 10 }) {
+          Text(item.status)
+            .fontSize(12)
+            .fontColor('#FFFFFF')
+            .width(58)
+            .height(34)
+            .textAlign(TextAlign.Center)
+            .backgroundColor('#1F4E3A')
+            .borderRadius(8)
+          Column({ space: 4 }) {
+            Text(item.title)
+              .fontSize(15)
+              .fontWeight(FontWeight.Medium)
+              .fontColor('#17201A')
+            Text(item.detail)
+              .fontSize(12)
+              .fontColor('#5F6B61')
+              .lineHeight(18)
+          }
+          .layoutWeight(1)
+          .alignItems(HorizontalAlign.Start)
+        }
+        .width('100%')
+        .padding(12)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+      }, (item: SubmissionCheckItem) => item.id)
+    }
+    .reviewPanel()
+  }
+
+  @Builder
+  RiskPanel() {
+    Column({ space: 12 }) {
+      Text('答辩兜底')
+        .fontSize(18)
+        .fontWeight(FontWeight.Bold)
+        .fontColor('#17201A')
+        .width('100%')
+      ForEach(this.risks, (item: RiskControlItem) => {
+        Column({ space: 5 }) {
+          Text(item.risk)
+            .fontSize(15)
+            .fontWeight(FontWeight.Medium)
+            .fontColor('#8A5A12')
+          Text(item.fallback)
+            .fontSize(13)
+            .fontColor('#5F6B61')
+            .lineHeight(20)
+            .width('100%')
+        }
+        .width('100%')
+        .padding(12)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+      }, (item: RiskControlItem) => item.id)
+    }
+    .reviewPanel()
+  }
+
+  @Builder
   RoutePanel() {
     Column({ space: 10 }) {
       Text('答辩演示顺序')
@@ -129,11 +204,7 @@ struct ReviewPage {
       Text('5. 设置页说明系统能力扩展')
         .routeText()
     }
-    .width('100%')
-    .padding(16)
-    .backgroundColor('#EEF2EA')
-    .borderRadius(8)
-    .border({ width: 1, color: '#D7DFD2' })
+    .reviewPanel()
   }
 }
 
@@ -143,4 +214,13 @@ function routeText() {
   .fontColor('#5F6B61')
   .lineHeight(22)
   .width('100%')
+}
+
+@Extend(Column)
+function reviewPanel() {
+  .width('100%')
+  .padding(16)
+  .backgroundColor('#EEF2EA')
+  .borderRadius(8)
+  .border({ width: 1, color: '#D7DFD2' })
 }

@@ -5,6 +5,7 @@
     "pages/TasksPage",
     "pages/ProfilePage",
     "pages/ReviewPage",
+    "pages/SubmissionPage",
     "pages/SettingsPage"
   ]
 }
