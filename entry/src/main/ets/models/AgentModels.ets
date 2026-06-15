@@ -128,3 +128,25 @@ export interface GoalTemplate {
   goal: string;
   scenario: string;
 }
+
+export interface StudyPreference {
+  id: string;
+  label: string;
+  value: string;
+}
+
+export interface StudyPlanConfig {
+  goal: string;
+  deadline: string;
+  dailyMinutes: string;
+  weakPoint: string;
+  preferredDevice: string;
+}
+
+export interface TodayAction {
+  id: string;
+  timeBox: string;
+  title: string;
+  detail: string;
+  output: string;
+}

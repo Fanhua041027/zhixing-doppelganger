@@ -1,15 +1,18 @@
-import { AgentPlan, AgentTask, DeviceFlowStep, GoalTemplate, ProfileSignal } from '../models/AgentModels';
+import { AgentPlan, AgentTask, DeviceFlowStep, GoalTemplate, ProfileSignal, StudyPreference, TodayAction } from '../models/AgentModels';
 import { ProfileRepository } from '../repositories/ProfileRepository';
 import { AgentService } from '../services/AgentService';
 import { DeviceFlowService } from '../services/DeviceFlowService';
 import { EvaluationMetric, EvaluationService } from '../services/EvaluationService';
 import { GoalTemplateService } from '../services/GoalTemplateService';
+import { StudyPlanService } from '../services/StudyPlanService';
 
 const defaultIndexGoal: string = '三天内完成鸿蒙智能体竞赛演示';
 const defaultIndexPlan: AgentPlan = AgentService.createPlan(defaultIndexGoal);
 const defaultIndexMetrics: EvaluationMetric[] = EvaluationService.evaluatePlan(defaultIndexPlan);
 const defaultDeviceFlow: DeviceFlowStep[] = DeviceFlowService.createFlowFromTasks(defaultIndexPlan.tasks);
 const defaultGoalTemplates: GoalTemplate[] = GoalTemplateService.getTemplates();
+const defaultPreferences: StudyPreference[] = StudyPlanService.getPreferences();
+const defaultTodayActions: TodayAction[] = StudyPlanService.getTodayActions(defaultIndexPlan);
 
 @Entry
 @Component
@@ -18,6 +21,8 @@ struct Index {
   @State plan: AgentPlan = defaultIndexPlan;
   @State metrics: EvaluationMetric[] = defaultIndexMetrics;
   @State deviceFlow: DeviceFlowStep[] = defaultDeviceFlow;
+  @State preferences: StudyPreference[] = defaultPreferences;
+  @State todayActions: TodayAction[] = defaultTodayActions;
   private goalTemplates: GoalTemplate[] = defaultGoalTemplates;
   private profileSignals: ProfileSignal[] = ProfileRepository.getProfileSignals();
 
@@ -26,7 +31,9 @@ struct Index {
       Column({ space: 18 }) {
         this.Header()
         this.GoalPanel()
+        this.PreferencePanel()
         this.AgentPanel()
+        this.TodayPanel()
         this.DeviceFlowPanel()
         this.TaskFlow()
         this.MetricsPanel()
@@ -121,6 +128,7 @@ struct Index {
           this.plan = AgentService.createPlan(value);
           this.metrics = EvaluationService.evaluatePlan(this.plan);
           this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
+          this.todayActions = StudyPlanService.getTodayActions(this.plan);
         })
 
       Button('生成执行计划')
@@ -135,7 +143,24 @@ struct Index {
           this.plan = AgentService.createPlan(this.goal);
           this.metrics = EvaluationService.evaluatePlan(this.plan);
           this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
+          this.todayActions = StudyPlanService.getTodayActions(this.plan);
         })
+      Button('配置个人计划')
+        .height(42)
+        .width('100%')
+        .fontSize(14)
+        .fontColor('#1F4E3A')
+        .backgroundColor('#E3EADF')
+        .borderRadius(8)
+        .onClick(() => this.getUIContext().getRouter().pushUrl({ url: 'pages/PlanConfigPage' }))
+      Button('刷新个人计划')
+        .height(42)
+        .width('100%')
+        .fontSize(14)
+        .fontColor('#1F4E3A')
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+        .onClick(() => this.refreshPersonalPlan())
       Column({ space: 8 }) {
         Text('目标模板')
           .fontSize(14)
@@ -206,6 +231,83 @@ struct Index {
         .fontColor('#4E5B50')
         .lineHeight(20)
         .width('100%')
+    }
+    .featurePanelStyle()
+  }
+
+  @Builder
+  PreferencePanel() {
+    Column({ space: 12 }) {
+      Row() {
+        Text('个人约束')
+          .fontSize(18)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#17201A')
+        Blank()
+        Text('可配置')
+          .fontSize(12)
+          .fontColor('#1F4E3A')
+          .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+          .backgroundColor('#DDEDDD')
+          .borderRadius(6)
+      }
+      .width('100%')
+      ForEach(this.preferences, (item: StudyPreference) => {
+        Row() {
+          Text(item.label)
+            .fontSize(13)
+            .fontColor('#667067')
+            .width(88)
+          Text(item.value)
+            .fontSize(14)
+            .fontColor('#17201A')
+            .layoutWeight(1)
+        }
+        .width('100%')
+      }, (item: StudyPreference) => item.id)
+    }
+    .featurePanelStyle()
+  }
+
+  @Builder
+  TodayPanel() {
+    Column({ space: 12 }) {
+      Text('今日行动')
+        .fontSize(18)
+        .fontWeight(FontWeight.Bold)
+        .fontColor('#17201A')
+        .width('100%')
+      ForEach(this.todayActions, (item: TodayAction) => {
+        Column({ space: 6 }) {
+          Row() {
+            Text(item.timeBox)
+              .fontSize(13)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('#FFFFFF')
+              .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+              .backgroundColor('#1F4E3A')
+              .borderRadius(6)
+            Blank()
+            Text(item.output)
+              .fontSize(12)
+              .fontColor('#8A5A12')
+          }
+          .width('100%')
+          Text(item.title)
+            .fontSize(15)
+            .fontWeight(FontWeight.Medium)
+            .fontColor('#17201A')
+          Text(item.detail)
+            .fontSize(13)
+            .fontColor('#5F6B61')
+            .lineHeight(20)
+            .width('100%')
+        }
+        .width('100%')
+        .padding(12)
+        .backgroundColor('#FFFFFF')
+        .borderRadius(8)
+      }, (item: TodayAction) => item.id)
     }
     .featurePanelStyle()
   }
@@ -421,6 +523,16 @@ struct Index {
     this.plan = AgentService.createPlan(item.goal);
     this.metrics = EvaluationService.evaluatePlan(this.plan);
     this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
+    this.todayActions = StudyPlanService.getTodayActions(this.plan);
+  }
+
+  private refreshPersonalPlan(): void {
+    this.preferences = StudyPlanService.getPreferences();
+    this.goal = StudyPlanService.getConfiguredGoal();
+    this.plan = StudyPlanService.createPlanFromConfig();
+    this.metrics = EvaluationService.evaluatePlan(this.plan);
+    this.deviceFlow = DeviceFlowService.createFlowFromTasks(this.plan.tasks);
+    this.todayActions = StudyPlanService.getTodayActions(this.plan);
   }
 }
 

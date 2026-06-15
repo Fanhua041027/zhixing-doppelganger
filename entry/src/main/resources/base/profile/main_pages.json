@@ -1,6 +1,7 @@
 {
   "src": [
     "pages/Index",
+    "pages/PlanConfigPage",
     "pages/ChatPage",
     "pages/TasksPage",
     "pages/ProfilePage",

@@ -1,4 +1,4 @@
-import { AgentPlan, AgentTask, ConflictNote, KnowledgeItem, MemoryItem, ProfileSignal, ReflectionItem, TaskHistoryItem } from '../models/AgentModels';
+import { AgentPlan, AgentTask, ConflictNote, KnowledgeItem, MemoryItem, ProfileSignal, ReflectionItem, StudyPlanConfig, TaskHistoryItem } from '../models/AgentModels';
 
 let currentPlan: AgentPlan | null = null;
 let currentTasks: AgentTask[] = [];
@@ -8,6 +8,7 @@ let currentKnowledge: KnowledgeItem[] = [];
 let currentConflicts: ConflictNote[] = [];
 let currentHistory: TaskHistoryItem[] = [];
 let currentReflections: ReflectionItem[] = [];
+let currentConfig: StudyPlanConfig | null = null;
 
 export class LocalStore {
   static savePlan(plan: AgentPlan): void {
@@ -81,5 +82,13 @@ export class LocalStore {
 
   static getReflections(): ReflectionItem[] {
     return currentReflections;
+  }
+
+  static saveStudyConfig(config: StudyPlanConfig): void {
+    currentConfig = config;
+  }
+
+  static getStudyConfig(): StudyPlanConfig | null {
+    return currentConfig;
   }
 }
