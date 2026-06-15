@@ -1,31 +1,33 @@
-# Submission Checklist
+# 提交检查清单
 
-## Code
+## 代码
 
-- Main dashboard opens without template content.
-- Task Board, Profile, and Settings pages are registered in `main_pages.json`.
-- Agent planning is implemented through `AgentService`.
-- Personal data is structured through repositories.
-- System capability calls are isolated behind `HarmonyIntentService`.
+- 首页不再是模板内容。
+- 对话、任务、画像、设置页面已注册到 `main_pages.json`。
+- 智能体规划由 `AgentService` 实现。
+- 对话由 `ConversationService` 实现。
+- 个人数据通过仓储层结构化。
+- 系统能力调用隔离在 `HarmonyIntentService`。
 
-## Demo
+## 演示
 
-- Prepare a stable input sentence.
-- Show generated intent, confidence, task cards, and evaluation metrics.
-- Show profile data and conflict notes.
-- Explain cross-device roles.
-- Explain which parts are implemented and which are extension points.
+- 准备稳定输入句。
+- 展示意图、置信度、任务卡片和评测指标。
+- 展示对话依据和下一步动作。
+- 展示画像数据和冲突记录。
+- 解释跨设备角色。
+- 说明哪些功能已实现，哪些是扩展点。
 
-## Build
+## 构建
 
-- Open the project in DevEco Studio 26.0.0 Beta1.
-- Run Build once before recording the demo.
-- Capture any compiler errors and fix them before submission.
+- 使用 DevEco Studio 26.0.0 Beta1 打开项目。
+- 提交前运行一次 Build。
+- 记录并修复所有编译错误。
 
-## Submission assets
+## 提交资产
 
-- App source code.
-- README.
-- Demo script.
-- Architecture explanation.
-- Short screen recording after successful build.
+- 应用源代码。
+- README。
+- 演示脚本。
+- 架构说明。
+- 成功构建后的演示录屏。

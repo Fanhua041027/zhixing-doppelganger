@@ -4,7 +4,7 @@ import { KnowledgeRepository } from '../repositories/KnowledgeRepository';
 
 export class AgentService {
   static createPlan(goal: string): AgentPlan {
-    const normalizedGoal = goal.trim().length > 0 ? goal.trim() : 'Build the HarmonyOS Agent MVP';
+    const normalizedGoal = goal.trim().length > 0 ? goal.trim() : '完成鸿蒙智能体竞赛演示';
     const intent = AgentService.inferIntent(normalizedGoal);
     const hits = AgentService.retrieveKnowledge(normalizedGoal);
 
@@ -23,45 +23,47 @@ export class AgentService {
 
   private static inferIntent(goal: string): string {
     const lowerGoal = goal.toLowerCase();
-    if (lowerGoal.includes('contest') || lowerGoal.includes('competition') || lowerGoal.includes('demo')) {
-      return 'Competition execution';
+    if (lowerGoal.includes('contest') || lowerGoal.includes('competition') || lowerGoal.includes('demo') ||
+      goal.includes('比赛') || goal.includes('竞赛') || goal.includes('演示')) {
+      return '竞赛执行规划';
     }
-    if (lowerGoal.includes('exam') || lowerGoal.includes('review')) {
-      return 'Review scheduling';
+    if (lowerGoal.includes('exam') || lowerGoal.includes('review') || goal.includes('考试') || goal.includes('复习')) {
+      return '复习调度';
     }
-    if (lowerGoal.includes('paper') || lowerGoal.includes('reading') || lowerGoal.includes('research')) {
-      return 'Research digest';
+    if (lowerGoal.includes('paper') || lowerGoal.includes('reading') || lowerGoal.includes('research') ||
+      goal.includes('论文') || goal.includes('文献') || goal.includes('资料')) {
+      return '资料研读整理';
     }
-    return 'Learning execution';
+    return '学习执行规划';
   }
 
   private static createTasks(goal: string, intent: string): AgentTask[] {
     const tasks: AgentTask[] = [
       {
         id: 'task-define',
-        title: 'Define the outcome',
-        detail: `Clarify acceptance criteria for "${goal}" and keep the demo path narrow.`,
-        device: 'Phone',
-        time: 'Now',
-        status: 'Active',
+        title: '明确交付结果',
+        detail: `围绕“${goal}”确认验收标准，保证演示路径聚焦稳定。`,
+        device: '手机',
+        time: '立即',
+        status: '进行中',
         priority: 'P0'
       },
       {
         id: 'task-plan',
-        title: 'Build execution cards',
-        detail: `Convert the ${intent.toLowerCase()} intent into tasks, checkpoints, and fallback steps.`,
-        device: 'Tablet',
-        time: '30 min',
-        status: 'Queued',
+        title: '生成执行卡片',
+        detail: `把“${intent}”拆成任务、检查点和兜底步骤。`,
+        device: '平板',
+        time: '30 分钟后',
+        status: '待执行',
         priority: 'P0'
       },
       {
         id: 'task-review',
-        title: 'Schedule a review',
-        detail: 'Trigger a recap after execution and feed the result back into the personal profile.',
-        device: 'Wearable',
-        time: 'Tonight',
-        status: 'Pending sync',
+        title: '安排复盘提醒',
+        detail: '任务完成后触发复盘，并把结果沉淀到个人画像。',
+        device: '穿戴设备',
+        time: '今晚',
+        status: '待同步',
         priority: 'P1'
       }
     ];
@@ -83,18 +85,18 @@ export class AgentService {
   }
 
   private static createSuggestion(intent: string, hits: KnowledgeHit[]): string {
-    const strongestHit = hits.length > 0 ? hits[0].excerpt : 'Keep the execution path explicit and measurable.';
+    const strongestHit = hits.length > 0 ? hits[0].excerpt : '保持执行路径清晰、可见、可衡量。';
     return `${intent}: ${strongestHit}`;
   }
 
   private static selectSystemAction(intent: string): string {
-    if (intent === 'Competition execution') {
-      return 'Calendar draft + review reminder';
+    if (intent === '竞赛执行规划') {
+      return '日程草稿 + 复盘提醒';
     }
-    if (intent === 'Review scheduling') {
-      return 'Review reminder';
+    if (intent === '复习调度') {
+      return '复习提醒';
     }
-    return 'Task handoff';
+    return '任务流转';
   }
 
   private static scoreKnowledge(goal: string, item: KnowledgeItem): number {

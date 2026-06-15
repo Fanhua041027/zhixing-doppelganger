@@ -7,7 +7,7 @@ const defaultChatTurn: ChatTurnResult = ConversationService.startConversation();
 @Entry
 @Component
 struct ChatPage {
-  @State prompt: string = 'How should I reduce demo risk?';
+  @State prompt: string = '如何降低演示风险？';
   @State turn: ChatTurnResult = defaultChatTurn;
 
   build() {
@@ -30,7 +30,7 @@ struct ChatPage {
   @Builder
   TopBar() {
     Row() {
-      Button('Back')
+      Button('返回')
         .height(36)
         .fontSize(13)
         .fontColor('#1F4E3A')
@@ -38,7 +38,7 @@ struct ChatPage {
         .borderRadius(8)
         .onClick(() => router.back())
       Blank()
-      Text('Agent Chat')
+      Text('智能体对话')
         .fontSize(22)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -49,12 +49,12 @@ struct ChatPage {
   @Builder
   InputPanel() {
     Column({ space: 12 }) {
-      Text('Ask for execution help')
+      Text('询问执行建议')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
         .width('100%')
-      TextInput({ text: this.prompt, placeholder: 'Ask about risk, UI, task, profile, or demo' })
+      TextInput({ text: this.prompt, placeholder: '询问风险、界面、任务、画像或演示' })
         .height(48)
         .fontSize(15)
         .fontColor('#17201A')
@@ -65,7 +65,7 @@ struct ChatPage {
         .onChange((value: string) => {
           this.prompt = value;
         })
-      Button('Ask Zhixing')
+      Button('询问知行')
         .height(42)
         .width('100%')
         .fontSize(14)
@@ -86,7 +86,7 @@ struct ChatPage {
   @Builder
   MessagePanel() {
     Column({ space: 12 }) {
-      Text('Conversation')
+      Text('对话记录')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -96,7 +96,7 @@ struct ChatPage {
           Text(message.role)
             .fontSize(12)
             .fontWeight(FontWeight.Bold)
-            .fontColor(message.role === 'Zhixing' ? '#1F4E3A' : '#8A5A12')
+            .fontColor(message.role === '知行' ? '#1F4E3A' : '#8A5A12')
           Text(message.content)
             .fontSize(14)
             .fontColor('#17201A')
@@ -105,7 +105,7 @@ struct ChatPage {
         }
         .width('100%')
         .padding(12)
-        .backgroundColor(message.role === 'Zhixing' ? '#FFFFFF' : '#F7EFD3')
+        .backgroundColor(message.role === '知行' ? '#FFFFFF' : '#F7EFD3')
         .borderRadius(8)
       }, (message: ChatMessage) => message.id)
     }
@@ -119,7 +119,7 @@ struct ChatPage {
   @Builder
   EvidencePanel() {
     Column({ space: 12 }) {
-      Text('Retrieved evidence')
+      Text('检索依据')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -151,7 +151,7 @@ struct ChatPage {
   @Builder
   NextActionPanel() {
     Column({ space: 8 }) {
-      Text('Next action')
+      Text('下一步动作')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')

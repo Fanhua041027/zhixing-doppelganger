@@ -3,7 +3,7 @@ import { AgentPlan, AgentTask } from '../models/AgentModels';
 import { AgentService } from '../services/AgentService';
 import { EvaluationMetric, EvaluationService } from '../services/EvaluationService';
 
-const defaultTaskPlan: AgentPlan = AgentService.createPlan('Prepare the first stable demo for the contest');
+const defaultTaskPlan: AgentPlan = AgentService.createPlan('准备第一版稳定竞赛演示');
 const defaultTaskMetrics: EvaluationMetric[] = EvaluationService.evaluatePlan(defaultTaskPlan);
 
 @Entry
@@ -31,7 +31,7 @@ struct TasksPage {
   @Builder
   TopBar() {
     Row() {
-      Button('Back')
+      Button('返回')
         .height(36)
         .fontSize(13)
         .fontColor('#1F4E3A')
@@ -39,7 +39,7 @@ struct TasksPage {
         .borderRadius(8)
         .onClick(() => router.back())
       Blank()
-      Text('Task Board')
+      Text('任务看板')
         .fontSize(22)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -50,12 +50,12 @@ struct TasksPage {
   @Builder
   ProgressPanel() {
     Column({ space: 10 }) {
-      Text('Execution progress')
+      Text('执行进度')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
         .width('100%')
-      Text('The current MVP focuses on making every Agent decision visible through task cards.')
+      Text('当前最小闭环重点是让每个智能体决策都通过任务卡片可见。')
         .fontSize(13)
         .fontColor('#5F6B61')
         .lineHeight(20)

@@ -1,34 +1,35 @@
-# Scoring Map
+# 评分点映射
 
-## Innovation
+## 创新性
 
-Zhixing Agent avoids a generic chatbot shape. Its core claim is executable personalization: user intent becomes structured task cards, profile signals, knowledge references, and measurable execution indicators.
+知行分身不是普通聊天助手，而是把用户意图转成结构化任务卡片、画像信号、知识依据和评测指标。核心创新是“可执行的个性化智能体”。
 
-## Technical completeness
+## 技术完整度
 
-Current code is split into UI pages, model definitions, repositories, and services:
+当前代码已经拆分为页面、模型、仓储和服务：
 
-- `AgentService`: intent recognition, retrieval, task generation.
-- `KnowledgeRepository`: knowledge and conflict notes.
-- `ProfileRepository`: profile signals and memories.
-- `LocalStore`: storage boundary for future persistence.
-- `HarmonyIntentService`: system capability boundary.
-- `EvaluationService`: measurable demo indicators.
+- `AgentService`：意图识别、检索、任务生成。
+- `ConversationService`：对话回复、依据检索、下一步动作。
+- `KnowledgeRepository`：知识和冲突记录。
+- `ProfileRepository`：画像信号和记忆。
+- `LocalStore`：后续持久化边界。
+- `HarmonyIntentService`：系统能力边界。
+- `EvaluationService`：演示指标。
 
-## HarmonyOS fit
+## 鸿蒙适配
 
-The project is created as a HarmonyOS application for phone and tablet. The current MVP models cross-device roles explicitly and reserves the system capability layer for calendar/reminder and device handoff integration.
+项目是面向手机和平板的 HarmonyOS 应用。当前版本明确建模跨设备任务角色，并为日程、提醒和任务流转预留系统能力层。
 
-## Application value
+## 应用价值
 
-The first use case is contest and study execution. It is narrow enough to demo reliably and broad enough to expand into course planning, exam review, and project management.
+第一场景聚焦竞赛备赛和学习执行，足够具体，便于稳定演示；也能自然扩展到课程规划、考试复习和项目管理。
 
-## Presentation readiness
+## 提交准备度
 
-The repository includes:
+仓库包含：
 
-- Product README.
-- Development plan.
-- Demo script.
-- Submission notes.
-- Scoring map.
+- 项目 README。
+- 开发计划。
+- 演示脚本。
+- 提交说明。
+- 评分映射。

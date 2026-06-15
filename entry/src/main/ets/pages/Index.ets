@@ -4,7 +4,7 @@ import { ProfileRepository } from '../repositories/ProfileRepository';
 import { AgentService } from '../services/AgentService';
 import { EvaluationMetric, EvaluationService } from '../services/EvaluationService';
 
-const defaultIndexGoal: string = 'Finish the HarmonyOS Agent contest MVP in three days';
+const defaultIndexGoal: string = '三天内完成鸿蒙智能体竞赛演示';
 const defaultIndexPlan: AgentPlan = AgentService.createPlan(defaultIndexGoal);
 const defaultIndexMetrics: EvaluationMetric[] = EvaluationService.evaluatePlan(defaultIndexPlan);
 
@@ -40,18 +40,18 @@ struct Index {
     Column({ space: 14 }) {
       Row() {
         Column({ space: 6 }) {
-          Text('Zhixing Agent')
+          Text('知行分身')
             .fontSize(34)
             .fontWeight(FontWeight.Bold)
             .fontColor('#162018')
-          Text('Intent-driven learning execution for HarmonyOS')
+          Text('基于意图识别的鸿蒙学习执行智能体')
             .fontSize(15)
             .fontColor('#59665C')
         }
         .layoutWeight(1)
         .alignItems(HorizontalAlign.Start)
 
-        Text('Alpha')
+        Text('演示版')
           .fontSize(12)
           .fontColor('#F6F1DA')
           .padding({ left: 10, right: 10, top: 5, bottom: 5 })
@@ -61,11 +61,11 @@ struct Index {
       .width('100%')
 
       Row({ space: 8 }) {
-        this.SignalPill('Intent')
-        this.SignalPill('Chat')
-        this.SignalPill('Tasks')
-        this.SignalPill('Profile')
-        this.SignalPill('Handoff')
+        this.SignalPill('意图')
+        this.SignalPill('对话')
+        this.SignalPill('任务')
+        this.SignalPill('画像')
+        this.SignalPill('流转')
       }
       .width('100%')
     }
@@ -87,12 +87,12 @@ struct Index {
   GoalPanel() {
     Column({ space: 14 }) {
       Row() {
-        Text('Learning goal')
+        Text('学习目标')
           .fontSize(18)
           .fontWeight(FontWeight.Bold)
           .fontColor('#17201A')
         Blank()
-        Text('MVP')
+        Text('最小闭环')
           .fontSize(12)
           .fontColor('#2D5D46')
           .padding({ left: 10, right: 10, top: 4, bottom: 4 })
@@ -101,7 +101,7 @@ struct Index {
       }
       .width('100%')
 
-      TextInput({ text: this.goal, placeholder: 'Enter a learning or contest goal' })
+      TextInput({ text: this.goal, placeholder: '输入学习、竞赛或项目目标' })
         .height(48)
         .fontSize(15)
         .fontColor('#17201A')
@@ -115,7 +115,7 @@ struct Index {
           this.metrics = EvaluationService.evaluatePlan(this.plan);
         })
 
-      Button('Generate execution plan')
+      Button('生成执行计划')
         .height(44)
         .width('100%')
         .fontSize(15)
@@ -136,7 +136,7 @@ struct Index {
     Column({ space: 12 }) {
       Row({ space: 12 }) {
         Column({ space: 6 }) {
-          Text('Detected intent')
+          Text('识别意图')
             .fontSize(13)
             .fontColor('#667067')
           Text(this.plan.intent)
@@ -152,7 +152,7 @@ struct Index {
             .fontSize(24)
             .fontWeight(FontWeight.Bold)
             .fontColor('#1F4E3A')
-          Text('Confidence')
+          Text('置信度')
             .fontSize(12)
             .fontColor('#667067')
         }
@@ -172,7 +172,7 @@ struct Index {
   @Builder
   TaskFlow() {
     Column({ space: 12 }) {
-      Text('Cross-device task flow')
+      Text('跨设备任务流')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -223,7 +223,7 @@ struct Index {
   @Builder
   ProfilePanel() {
     Column({ space: 12 }) {
-      Text('Personal profile signals')
+      Text('个人画像信号')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -249,7 +249,7 @@ struct Index {
   @Builder
   MetricsPanel() {
     Column({ space: 12 }) {
-      Text('Evaluation snapshot')
+      Text('评测快照')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -287,16 +287,16 @@ struct Index {
   @Builder
   NavigationPanel() {
     Row({ space: 10 }) {
-      Button('Chat')
+      Button('对话')
         .navButtonStyle()
         .onClick(() => router.pushUrl({ url: 'pages/ChatPage' }))
-      Button('Tasks')
+      Button('任务')
         .navButtonStyle()
         .onClick(() => router.pushUrl({ url: 'pages/TasksPage' }))
-      Button('Profile')
+      Button('画像')
         .navButtonStyle()
         .onClick(() => router.pushUrl({ url: 'pages/ProfilePage' }))
-      Button('Settings')
+      Button('设置')
         .navButtonStyle()
         .onClick(() => router.pushUrl({ url: 'pages/SettingsPage' }))
     }
@@ -305,10 +305,10 @@ struct Index {
   }
 
   private statusColor(status: string): string {
-    if (status === 'Active') {
+    if (status === '进行中') {
       return '#1F4E3A';
     }
-    if (status === 'Pending sync') {
+    if (status === '待同步') {
       return '#8A5A12';
     }
     return '#667067';

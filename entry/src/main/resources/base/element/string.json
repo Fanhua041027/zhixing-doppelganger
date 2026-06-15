@@ -2,15 +2,15 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "Zhixing entry module"
+      "value": "知行分身主模块"
     },
     {
       "name": "EntryAbility_desc",
-      "value": "Intent-driven HarmonyOS learning execution Agent"
+      "value": "基于意图识别的鸿蒙学习执行智能体"
     },
     {
       "name": "EntryAbility_label",
-      "value": "Zhixing"
+      "value": "知行分身"
     }
   ]
 }

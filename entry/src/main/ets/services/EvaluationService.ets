@@ -10,19 +10,19 @@ export class EvaluationService {
   static evaluatePlan(plan: AgentPlan): EvaluationMetric[] {
     const metrics: EvaluationMetric[] = [
       {
-        label: 'Intent confidence',
+        label: '意图置信度',
         value: `${plan.confidence}%`,
-        detail: 'Rule-based baseline before model integration.'
+        detail: '当前为规则版基线，后续可接入模型增强。'
       },
       {
-        label: 'Task coverage',
-        value: `${plan.tasks.length} cards`,
-        detail: 'Goal, execution, and review stages are all visible.'
+        label: '任务覆盖',
+        value: `${plan.tasks.length} 张卡片`,
+        detail: '目标、执行、复盘三个阶段都可见。'
       },
       {
-        label: 'Device roles',
+        label: '设备角色',
         value: EvaluationService.countDevices(plan).toString(),
-        detail: 'Phone, tablet, and wearable are separated by workflow role.'
+        detail: '手机、平板、穿戴设备承担不同任务角色。'
       }
     ];
     return metrics;

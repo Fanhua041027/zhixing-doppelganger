@@ -1,52 +1,52 @@
-# Zhixing Agent
+# 知行分身
 
-Intent-driven HarmonyOS cross-device learning execution agent.
+基于意图识别的鸿蒙跨设备学习执行智能体。
 
-## Overview
+## 项目简介
 
-Zhixing Agent turns a broad learning or contest goal into an executable plan. It detects the user's intent, retrieves local personal context, generates task cards, assigns device roles, and shows evaluation indicators that make the Agent's decisions explainable.
+知行分身面向学习、竞赛备赛和项目推进场景。用户输入一个较大的学习目标后，系统会识别意图、检索本地个人上下文、生成任务卡片、分配设备角色，并给出可解释的评测指标。
 
-The project targets the Agent innovation direction of the HarmonyOS college innovation competition. The MVP is intentionally local-first and deterministic so the first demo is stable, while the architecture is ready for RAG, rerank, model APIs, and HarmonyOS system capability integration.
+当前版本采用本地确定性规则实现，优先保证演示稳定；架构上已经为后续接入 RAG、重排序、模型接口和鸿蒙系统能力预留边界。
 
-## Implemented Features
+## 已实现功能
 
-- Goal input and intent recognition.
-- Agent chat with retrieved evidence and next action guidance.
-- Execution plan generation with task cards.
-- Cross-device role modeling for phone, tablet, and wearable.
-- Personal profile signals, memories, knowledge items, and conflict notes.
-- Evaluation metrics for confidence, task coverage, and device roles.
-- Settings page with RAG, cross-device, and strict-context controls.
-- System capability boundary for future calendar/reminder integration.
+- 学习目标输入与意图识别。
+- 智能体对话，包含检索依据和下一步动作。
+- 执行计划生成与任务卡片展示。
+- 手机、平板、穿戴设备的角色建模。
+- 个人画像信号、记忆、知识条目和冲突记录。
+- 意图置信度、任务覆盖、设备角色等评测指标。
+- 设置页中的检索增强、跨设备流转、严格上下文控制。
+- 日程和提醒等系统能力的服务层占位。
 
-## Architecture
+## 工程结构
 
-- `entry/src/main/ets/pages`: ArkUI pages.
-- `entry/src/main/ets/models`: shared data models.
-- `entry/src/main/ets/services`: Agent, evaluation, and system capability services.
-- `entry/src/main/ets/repositories`: profile, knowledge, and local store repositories.
-- `docs`: development plan, demo script, scoring map, and submission notes.
+- `entry/src/main/ets/pages`：ArkUI 页面。
+- `entry/src/main/ets/models`：共享数据模型。
+- `entry/src/main/ets/services`：智能体、评测、对话和系统能力服务。
+- `entry/src/main/ets/repositories`：画像、知识和本地存储仓储。
+- `docs`：开发计划、演示脚本、评分映射和提交检查清单。
 
-## Demo Flow
+## 演示路径
 
-1. Open the dashboard.
-2. Enter `Prepare the HarmonyOS Agent innovation contest demo`.
-3. Generate the execution plan.
-4. Show detected intent, confidence, task cards, and evaluation metrics.
-5. Open Chat to ask about demo risk and show retrieved evidence.
-6. Open Profile to show personal data and conflict notes.
-7. Open Settings to show the system capability extension point.
+1. 打开首页。
+2. 输入 `三天内完成鸿蒙智能体竞赛演示`。
+3. 生成执行计划。
+4. 展示识别意图、置信度、任务卡片和评测指标。
+5. 打开对话页，询问 `如何降低演示风险？`，展示检索依据。
+6. 打开画像页，展示个人画像、记忆、知识和冲突记录。
+7. 打开设置页，展示系统能力扩展点。
 
-## Development Environment
+## 开发环境
 
-- DevEco Studio 26.0.0 Beta1.
-- HarmonyOS application.
-- Device types: Phone and Tablet.
-- Language: ArkTS.
+- DevEco Studio 26.0.0 Beta1。
+- HarmonyOS 应用。
+- 设备类型：手机和平板。
+- 语言：ArkTS。
 
-## Next Milestones
+## 后续里程碑
 
-- Persist `LocalStore` with HarmonyOS local storage.
-- Connect real calendar/reminder system invocation.
-- Prototype phone-tablet task handoff.
-- Add model-backed RAG behind `AgentService`.
+- 将内存版 `LocalStore` 替换为鸿蒙本地持久化。
+- 接入真实日程和提醒系统能力。
+- 做手机和平板间的任务流转原型。
+- 在 `AgentService` 后接入真实模型和 RAG。

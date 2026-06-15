@@ -4,10 +4,10 @@ import { LocalStore } from './LocalStore';
 export class ProfileRepository {
   static getProfileSignals(): ProfileSignal[] {
     const signals: ProfileSignal[] = [
-      { label: 'Execution style', value: 'Close the loop first, polish after proof.' },
-      { label: 'Learning mode', value: 'Task cards, time boxes, and short reviews.' },
-      { label: 'Risk control', value: 'Avoid relying on unstable APIs for the main demo.' },
-      { label: 'Decision rule', value: 'Prefer visible progress over broad but thin scope.' }
+      { label: '执行风格', value: '先跑通闭环，再打磨体验。' },
+      { label: '学习方式', value: '任务卡片、时间盒、短复盘。' },
+      { label: '风险控制', value: '主演示不依赖不稳定接口。' },
+      { label: '决策规则', value: '优先可见进展，避免范围过散。' }
     ];
     LocalStore.saveSignals(signals);
     return signals;
@@ -17,15 +17,15 @@ export class ProfileRepository {
     const memories: MemoryItem[] = [
       {
         id: 'memory-001',
-        title: 'Competition strategy',
-        content: 'The project should show Agent execution and HarmonyOS cross-device value in the first minute.',
-        source: 'planning'
+        title: '竞赛策略',
+        content: '作品应在第一分钟展示智能体执行能力和鸿蒙跨设备价值。',
+        source: '规划'
       },
       {
         id: 'memory-002',
-        title: 'MVP boundary',
-        content: 'Start with deterministic intent recognition and keep model integration behind a service boundary.',
-        source: 'architecture'
+        title: '最小版本边界',
+        content: '先使用确定性的意图识别，把模型接入隔离在服务层之后。',
+        source: '架构'
       }
     ];
     LocalStore.saveMemories(memories);

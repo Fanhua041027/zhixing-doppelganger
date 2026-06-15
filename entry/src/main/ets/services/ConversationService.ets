@@ -6,35 +6,35 @@ export class ConversationService {
     const messages: ChatMessage[] = [
       {
         id: 'msg-user-001',
-        role: 'User',
-        content: 'I need a stable demo path for the HarmonyOS Agent competition.'
+        role: '用户',
+        content: '我需要一个稳定的鸿蒙智能体竞赛演示路径。'
       },
       {
         id: 'msg-agent-001',
-        role: 'Zhixing',
-        content: 'I will keep the demo narrow: goal input, intent detection, task cards, profile evidence, and system capability handoff.'
+        role: '知行',
+        content: '我会收窄演示路径：目标输入、意图识别、任务卡片、画像依据和系统能力流转。'
       }
     ];
     const result: ChatTurnResult = {
       messages,
-      evidence: ConversationService.retrieveEvidence('competition demo'),
-      nextAction: 'Open Task Board and verify every task has a device role.'
+      evidence: ConversationService.retrieveEvidence('竞赛演示'),
+      nextAction: '打开任务看板，确认每个任务都有明确设备角色。'
     };
     return result;
   }
 
   static reply(input: string): ChatTurnResult {
-    const normalizedInput: string = input.trim().length > 0 ? input.trim() : 'Help me improve the contest demo.';
+    const normalizedInput: string = input.trim().length > 0 ? input.trim() : '帮我优化竞赛演示。';
     const evidence: KnowledgeHit[] = ConversationService.retrieveEvidence(normalizedInput);
     const messages: ChatMessage[] = [
       {
         id: 'msg-user-live',
-        role: 'User',
+        role: '用户',
         content: normalizedInput
       },
       {
         id: 'msg-agent-live',
-        role: 'Zhixing',
+        role: '知行',
         content: ConversationService.composeReply(normalizedInput, evidence)
       }
     ];
@@ -61,25 +61,25 @@ export class ConversationService {
   }
 
   private static composeReply(input: string, evidence: KnowledgeHit[]): string {
-    const strongestEvidence: string = evidence.length > 0 ? evidence[0].excerpt : 'Keep every Agent decision visible.';
-    if (input.toLowerCase().includes('risk')) {
-      return `Risk-first answer: keep the main demo deterministic. Evidence: ${strongestEvidence}`;
+    const strongestEvidence: string = evidence.length > 0 ? evidence[0].excerpt : '让每个智能体决策都可见。';
+    if (input.toLowerCase().includes('risk') || input.includes('风险')) {
+      return `风险优先建议：主演示保持确定性，不把成败押在不稳定接口上。依据：${strongestEvidence}`;
     }
-    if (input.toLowerCase().includes('ui')) {
-      return `UI answer: make the execution flow visible before adding decoration. Evidence: ${strongestEvidence}`;
+    if (input.toLowerCase().includes('ui') || input.includes('界面')) {
+      return `界面建议：先让执行流清晰可见，再增加视觉装饰。依据：${strongestEvidence}`;
     }
-    return `Execution answer: turn the request into one visible next step. Evidence: ${strongestEvidence}`;
+    return `执行建议：把请求转成一个可见的下一步动作。依据：${strongestEvidence}`;
   }
 
   private static selectNextAction(input: string): string {
     const lowerInput: string = input.toLowerCase();
-    if (lowerInput.includes('profile')) {
-      return 'Open Profile and check signals, memories, knowledge, and conflict notes.';
+    if (lowerInput.includes('profile') || input.includes('画像')) {
+      return '打开画像页，检查信号、记忆、知识和冲突记录。';
     }
-    if (lowerInput.includes('task') || lowerInput.includes('demo')) {
-      return 'Open Task Board and confirm the demo path.';
+    if (lowerInput.includes('task') || lowerInput.includes('demo') || input.includes('任务') || input.includes('演示')) {
+      return '打开任务看板，确认演示路径。';
     }
-    return 'Generate a fresh execution plan on the dashboard.';
+    return '回到首页生成新的执行计划。';
   }
 
   private static scoreItem(input: string, item: KnowledgeItem): number {

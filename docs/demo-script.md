@@ -1,24 +1,24 @@
-# Demo Script
+# 演示脚本
 
-## 30-second story
+## 30 秒介绍
 
-Zhixing Agent turns a broad learning goal into a visible execution plan. The user enters a contest or study goal, the app detects the intent, retrieves local knowledge, generates cross-device task cards, and shows measurable signals that can be used in the final defense.
+知行分身把宽泛的学习目标转成可执行计划。用户输入学习或竞赛目标后，应用会识别意图、检索本地知识、生成跨设备任务卡片，并展示可用于答辩的评测指标。
 
-## First demo path
+## 第一版演示路径
 
-1. Open the app on the main dashboard.
-2. Enter: `Prepare the HarmonyOS Agent innovation contest demo`.
-3. Show the detected intent and confidence score.
-4. Point to the task cards and explain the device roles.
-5. Open Chat and ask `How should I reduce demo risk?`.
-6. Show retrieved evidence and the generated next action.
-7. Open the Profile page to show memories, knowledge, and conflict notes.
-8. Open Settings and show the system capability placeholder for reminder and calendar integration.
+1. 打开应用首页。
+2. 输入：`三天内完成鸿蒙智能体竞赛演示`。
+3. 展示识别意图和置信度。
+4. 指出任务卡片和设备角色。
+5. 打开对话页，询问 `如何降低演示风险？`。
+6. 展示检索依据和生成的下一步动作。
+7. 打开画像页，展示记忆、知识和冲突记录。
+8. 打开设置页，展示提醒和日程的系统能力占位。
 
-## Current proof points
+## 当前证明点
 
-- Intent recognition is deterministic and visible.
-- Task decomposition is separated from the UI in `AgentService`.
-- Personal profile, knowledge, memory, and conflicts are modeled as structured data.
-- Evaluation metrics are already shown in the interface.
-- Agent chat is grounded in local knowledge evidence.
+- 意图识别是确定性、可见的。
+- 任务拆解已经从界面中拆到 `AgentService`。
+- 个人画像、知识、记忆和冲突记录都使用结构化数据。
+- 界面中已经展示评测指标。
+- 智能体对话基于本地知识依据生成。

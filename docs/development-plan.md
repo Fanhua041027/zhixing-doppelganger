@@ -1,34 +1,34 @@
-# Development Plan
+# 开发计划
 
-## Phase 1: MVP Workspace
+## 第一阶段：最小工作台
 
-- Replace the template page with the Zhixing dashboard.
-- Keep the first implementation local and deterministic.
-- Provide goal input, intent recognition, task cards, and profile signals.
-- Verify the project opens and builds inside DevEco Studio 26.0.0 Beta1.
+- 替换模板页，形成知行分身首页。
+- 保持第一版本地化、确定性，保证演示稳定。
+- 提供目标输入、意图识别、任务卡片和画像信号。
+- 确认项目能在 DevEco Studio 26.0.0 Beta1 中打开和构建。
 
-## Phase 2: Agent Core
+## 第二阶段：智能体主链路
 
-- Move intent recognition into a dedicated service.
-- Add task decomposition models and execution states.
-- Persist task history locally.
-- Add fallback responses for unsupported or ambiguous goals.
-- Keep evaluation metrics visible in the product UI from the first demo.
+- 将意图识别放入独立服务层。
+- 增加任务拆解模型和执行状态。
+- 保存任务历史。
+- 为不明确目标提供兜底回复。
+- 从第一版演示开始展示评测指标。
 
-## Phase 3: Personal Doppelganger Data
+## 第三阶段：个人分身数据
 
-- Model user preferences, learning habits, memories, and conflict notes.
-- Add import-friendly structured data files.
-- Prepare RAG interfaces without coupling the UI to a specific model vendor.
+- 建模用户偏好、学习习惯、记忆和冲突记录。
+- 增加便于导入的结构化数据文件。
+- 预留 RAG 接口，避免界面绑定具体模型供应商。
 
-## Phase 4: HarmonyOS Native Capabilities
+## 第四阶段：鸿蒙原生能力
 
-- Add system intent invocation for schedule and reminder scenarios.
-- Prototype cross-device task display for phone and tablet.
-- Add permission and capability checks with graceful fallback.
+- 为日程和提醒场景接入系统意图。
+- 原型化手机和平板间的任务展示。
+- 增加权限和能力检查，并提供降级方案。
 
-## Phase 5: Competition Delivery
+## 第五阶段：比赛交付
 
-- Prepare a stable demo path.
-- Write project abstract, innovation points, and architecture description.
-- Add measurable evaluation metrics for intent accuracy, task completion, and personalization.
+- 准备稳定演示路径。
+- 编写项目摘要、创新点和架构说明。
+- 增加意图准确率、任务完成度和个性化程度等评测指标。

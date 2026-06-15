@@ -1,45 +1,47 @@
-# Zhixing Agent Submission Notes
+# 作品提交说明
 
-## Project title
+## 作品名称
 
-Zhixing Agent: Intent-driven HarmonyOS cross-device learning execution agent.
+知行分身：基于意图识别的鸿蒙跨设备学习执行智能体。
 
-## Problem
+## 问题
 
-Students often turn broad goals into scattered reminders, notes, and messages. Existing assistants answer questions, but they rarely turn intent into an executable workflow that stays visible across devices.
+学生经常把学习目标分散在提醒、笔记和聊天记录里。普通助手可以回答问题，但很少能把意图转成持续可见的执行流程。
 
-## Solution
+## 方案
 
-Zhixing Agent recognizes a learning or contest goal, retrieves local personal context, creates task cards, assigns device roles, and exposes measurable execution signals. The first MVP is deterministic and local-first so the demo remains stable.
+知行分身识别学习或竞赛目标，检索本地个人上下文，生成任务卡片，分配设备角色，并展示可衡量的执行信号。第一版采用本地确定性规则，保证演示稳定。
 
-## Innovation points
+## 创新点
 
-- Intent-to-execution loop: the product shows intent recognition, task decomposition, and next action in one flow.
-- Personal doppelganger data model: profile signals, memories, knowledge items, and conflict notes are structured from the start.
-- RAG-ready architecture: knowledge retrieval and scoring are isolated in services, ready for rerank and model integration.
-- HarmonyOS-oriented design: the task flow assigns phone, tablet, and wearable roles for later cross-device handoff.
-- Evaluation built in: confidence, task coverage, and device roles are visible in the UI.
+- 意图到执行闭环：展示意图识别、任务拆解和下一步动作。
+- 个人数字分身数据模型：画像、记忆、知识和冲突记录从一开始结构化。
+- RAG 预备架构：知识检索和打分隔离在服务层。
+- 鸿蒙导向设计：任务流显式区分手机、平板和穿戴设备角色。
+- 内置评测：置信度、任务覆盖和设备角色直接展示在界面中。
 
-## Implemented MVP
+## 已实现最小版本
 
-- Main dashboard with goal input and execution plan generation.
-- Task Board page for task progress and task cards.
-- Profile page for personal signals, memories, knowledge, and conflict notes.
-- Settings page for Agent controls and system capability placeholders.
-- Service layer for Agent planning, local store, knowledge retrieval, system action preparation, and evaluation.
+- 首页：目标输入与执行计划生成。
+- 对话页：基于本地知识的智能体问答。
+- 任务页：任务进度和任务卡片。
+- 画像页：个人信号、记忆、知识和冲突记录。
+- 设置页：智能体控制和系统能力占位。
+- 服务层：智能体规划、对话、知识检索、系统动作和评测。
 
-## Next build targets
+## 下一步建设
 
-- Replace in-memory `LocalStore` with HarmonyOS persistent storage.
-- Connect real system calendar/reminder ability through Want or Intent Framework.
-- Prototype phone-tablet state transfer and graceful fallback.
-- Add real model/RAG API behind `AgentService` without changing page code.
+- 用鸿蒙本地存储替代内存版 `LocalStore`。
+- 接入真实日程和提醒能力。
+- 原型化手机和平板间的任务状态流转。
+- 在 `AgentService` 后接入真实模型和 RAG。
 
-## Demo path
+## 演示路径
 
-1. Open the dashboard.
-2. Enter `Prepare the HarmonyOS Agent innovation contest demo`.
-3. Generate the plan.
-4. Show intent, task flow, and evaluation metrics.
-5. Open Profile to show the personal doppelganger data model.
-6. Open Settings to show system capability and future HarmonyOS integration.
+1. 打开首页。
+2. 输入 `三天内完成鸿蒙智能体竞赛演示`。
+3. 生成执行计划。
+4. 展示意图、任务流和评测指标。
+5. 打开对话页，展示检索依据和下一步动作。
+6. 打开画像页，展示数字分身数据模型。
+7. 打开设置页，展示系统能力扩展点。

@@ -1,7 +1,7 @@
 import { router } from '@kit.ArkUI';
 import { HarmonyIntentService, SystemActionResult } from '../services/HarmonyIntentService';
 
-const defaultSystemAction: SystemActionResult = HarmonyIntentService.createCalendarDraft('HarmonyOS Agent MVP');
+const defaultSystemAction: SystemActionResult = HarmonyIntentService.createCalendarDraft('鸿蒙智能体演示');
 
 @Entry
 @Component
@@ -30,7 +30,7 @@ struct SettingsPage {
   @Builder
   TopBar() {
     Row() {
-      Button('Back')
+      Button('返回')
         .height(36)
         .fontSize(13)
         .fontColor('#1F4E3A')
@@ -38,7 +38,7 @@ struct SettingsPage {
         .borderRadius(8)
         .onClick(() => router.back())
       Blank()
-      Text('Settings')
+      Text('设置')
         .fontSize(22)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -49,14 +49,14 @@ struct SettingsPage {
   @Builder
   SwitchPanel() {
     Column({ space: 14 }) {
-      Text('Agent controls')
+      Text('智能体控制')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
         .width('100%')
 
       Row() {
-        Text('RAG guardrail')
+        Text('检索增强约束')
           .settingLabel()
         Toggle({ type: ToggleType.Switch, isOn: this.ragEnabled })
           .selectedColor('#1F4E3A')
@@ -67,7 +67,7 @@ struct SettingsPage {
       .settingRow()
 
       Row() {
-        Text('Cross-device flow')
+        Text('跨设备流转')
           .settingLabel()
         Toggle({ type: ToggleType.Switch, isOn: this.crossDeviceEnabled })
           .selectedColor('#1F4E3A')
@@ -78,7 +78,7 @@ struct SettingsPage {
       .settingRow()
 
       Row() {
-        Text('Strict context mode')
+        Text('严格上下文模式')
           .settingLabel()
         Toggle({ type: ToggleType.Switch, isOn: this.strictMode })
           .selectedColor('#1F4E3A')
@@ -94,16 +94,16 @@ struct SettingsPage {
   @Builder
   RoadmapPanel() {
     Column({ space: 10 }) {
-      Text('Next engineering steps')
+      Text('后续工程步骤')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
         .width('100%')
-      Text('1. Persist profile and task history locally.')
+      Text('1. 将画像和任务历史持久化到本地。')
         .roadmapText()
-      Text('2. Add real system intent invocation for schedule and reminder scenarios.')
+      Text('2. 接入真实日程和提醒系统能力。')
         .roadmapText()
-      Text('3. Prototype phone-tablet task handoff with graceful fallback.')
+      Text('3. 做手机和平板间的任务流转原型，并提供兜底方案。')
         .roadmapText()
     }
     .pagePanel()
@@ -112,7 +112,7 @@ struct SettingsPage {
   @Builder
   SystemActionPanel() {
     Column({ space: 10 }) {
-      Text('System capability')
+      Text('系统能力')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -127,7 +127,7 @@ struct SettingsPage {
         .fontColor('#5F6B61')
         .lineHeight(20)
         .width('100%')
-      Button('Prepare review reminder')
+      Button('准备复盘提醒')
         .height(40)
         .width('100%')
         .fontSize(14)
@@ -135,7 +135,7 @@ struct SettingsPage {
         .backgroundColor('#1F4E3A')
         .borderRadius(8)
         .onClick(() => {
-          this.actionResult = HarmonyIntentService.createReviewReminder('HarmonyOS Agent MVP');
+          this.actionResult = HarmonyIntentService.createReviewReminder('鸿蒙智能体演示');
         })
     }
     .pagePanel()

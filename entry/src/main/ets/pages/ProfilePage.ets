@@ -31,7 +31,7 @@ struct ProfilePage {
   @Builder
   TopBar() {
     Row() {
-      Button('Back')
+      Button('返回')
         .height(36)
         .fontSize(13)
         .fontColor('#1F4E3A')
@@ -39,7 +39,7 @@ struct ProfilePage {
         .borderRadius(8)
         .onClick(() => router.back())
       Blank()
-      Text('Profile')
+      Text('个人画像')
         .fontSize(22)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -50,7 +50,7 @@ struct ProfilePage {
   @Builder
   SignalPanel() {
     Column({ space: 12 }) {
-      Text('Doppelganger signals')
+      Text('分身信号')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -78,7 +78,7 @@ struct ProfilePage {
   @Builder
   MemoryPanel() {
     Column({ space: 12 }) {
-      Text('Memory base')
+      Text('记忆库')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -110,7 +110,7 @@ struct ProfilePage {
   @Builder
   KnowledgePanel() {
     Column({ space: 12 }) {
-      Text('Knowledge base')
+      Text('知识库')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
@@ -142,7 +142,7 @@ struct ProfilePage {
   @Builder
   ConflictPanel() {
     Column({ space: 12 }) {
-      Text('Conflict notes')
+      Text('冲突记录')
         .fontSize(18)
         .fontWeight(FontWeight.Bold)
         .fontColor('#17201A')
